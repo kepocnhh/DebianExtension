@@ -5,8 +5,8 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_SERVICE
 fi
 
-$DEBIAN_EXTENSION_HOME/common/install_app.sh curl
+$DEBIAN_EXTENSION_HOME/common/install_app.sh openssl
 
-curl --version
+openssl version -a
 
 exit 0
