@@ -1,4 +1,4 @@
-echo "install app..."
+echo "install package..."
 
 ERROR_CODE_SERVICE=1
 ERROR_CODE_EMPTY_APP_NAME=2
@@ -9,22 +9,23 @@ if test $# -ne 1; then
     exit $ERROR_CODE_SERVICE
 fi
 
-APP_NAME=$1
+PACKAGE_NAME=$1
 
-if test -z $APP_NAME; then
-    echo "App name must be not empty!"
+if test -z $PACKAGE_NAME; then
+    echo "Package name must be not empty!"
     exit $ERROR_CODE_EMPTY_APP_NAME
 fi
 
-echo "install $APP_NAME start."
+echo "install package \"$PACKAGE_NAME\" start."
 
 STATUS=0
 
 apt-get install -qq --no-install-recommends curl || STATUS=$?
-if test $STATUS -ne 0; then echo "install $APP_NAME error!"
+if test $STATUS -ne 0; then
+	echo "install package \"$PACKAGE_NAME\" error!"
     exit $ERROR_CODE_INSTALL_APP
 fi
 
-echo "install $APP_NAME success."
+echo "install package \"$PACKAGE_NAME\" success."
 
 exit 0
