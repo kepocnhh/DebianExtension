@@ -17,18 +17,18 @@ PASSWORD=$2
 
 if test -z $SSID; then
     echo "SSID must be not empty!"
-    exit $ERROR_CODE_EMPTY_APP_NAME
+    exit $ERROR_CODE_EMPTY_SSID
 fi
 if test -z $PASSWORD; then
     echo "PASSWORD must be not empty!"
-    exit $ERROR_CODE_EMPTY_APP_NAME
+    exit $ERROR_CODE_EMPTY_PASSWORD
 fi
 
 TMP_FILE_PATH=/tmp/wpa_supplicant.tmp.conf
 
 STATUS=0
 
-/usr/bin/wpa_passphrase "$SSID" $PASSORD >> "$TMP_FILE_PATH" || STATUS=$?
+/usr/bin/wpa_passphrase "$SSID" "$PASSWORD" >> "$TMP_FILE_PATH" || STATUS=$?
 if test $STATUS -ne 0; then
 	echo "create wpa_supplicant.conf error!"
 	rm "$TMP_FILE_PATH"
