@@ -1,7 +1,7 @@
 echo "install package..."
 
 ERROR_CODE_SERVICE=1
-ERROR_CODE_EMPTY_APP_NAME=2
+ERROR_CODE_EMPTY_PACKAGE_NAME=2
 ERROR_CODE_INSTALL_APP=3
 
 if test $# -ne 1; then
@@ -13,7 +13,7 @@ PACKAGE_NAME=$1
 
 if test -z $PACKAGE_NAME; then
     echo "Package name must be not empty!"
-    exit $ERROR_CODE_EMPTY_APP_NAME
+    exit $ERROR_CODE_EMPTY_PACKAGE_NAME
 fi
 
 echo "install package \"$PACKAGE_NAME\" start."
