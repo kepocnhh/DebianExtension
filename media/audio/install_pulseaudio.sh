@@ -5,8 +5,8 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_SERVICE
 fi
 
-$DEBIAN_EXTENSION_HOME/common/install_package.sh alsa-utils
+$DEBIAN_EXTENSION_HOME/common/install_package.sh pulseaudio
 
-aplay --version
+pulseaudio --version
 
 exit 0
