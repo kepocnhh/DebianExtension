@@ -5,8 +5,8 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_SERVICE
 fi
 
-$DEBIAN_EXTENSION_HOME/common/install_package.sh vlc
+$DEBIAN_EXTENSION_HOME/common/install_package.sh google-chrome-stable
 
-vlc --version
+google-chrome-stable --version
 
 exit 0

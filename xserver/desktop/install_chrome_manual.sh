@@ -23,6 +23,8 @@ fi
 
 rm $TMP_FILE_PATH
 
+google-chrome-stable --version
+
 echo "install chrome success."
 
 exit 0
