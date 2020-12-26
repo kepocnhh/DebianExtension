@@ -35,4 +35,12 @@
 *.color7:       #707880
 *.color15:      #c5c8c6
 
+Xft.antialias: true
+Xft.dpi: 100.0
+Xft.hinting: true
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+
 URxvt.scrollBar: false
+URxvt.font: xftLJetBrains Mono NL:style=Regular:size=9
