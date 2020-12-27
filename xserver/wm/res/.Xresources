@@ -43,4 +43,4 @@ Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
 
 URxvt.scrollBar: false
-URxvt.font: xftLJetBrains Mono NL:style=Regular:size=9
+URxvt.font: xft:JetBrains Mono NL:style=Regular:size=10
