@@ -148,3 +148,15 @@ bar {
   inactive_workspace $color_bg $color_bg $color_tx
  }
 }
+
+bindsym $mod+l exec i3lock --color='$color_bg'
+
+# exec
+
+set $time_display_off 300
+
+exec --no-startup-id xset dpms 0 0 $time_display_off
+
+set $time_lock 8
+
+exec --no-startup-id xautolock -time $time_lock -locker "i3lock --color='$color_bg'"
