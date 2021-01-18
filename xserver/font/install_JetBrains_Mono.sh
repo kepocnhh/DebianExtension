@@ -10,7 +10,7 @@ DOWNLOAD_URL=https://github.com/JetBrains/JetBrainsMono/releases/download/v${VER
 
 TMP_FILE_PATH=/tmp/font_$NAME_FONT.zip
 
-curl -s $DOWNLOAD_URL -o $TMP_FILE_PATH || STATUS=$?
+curl -L $DOWNLOAD_URL -o $TMP_FILE_PATH || STATUS=$?
 if test $STATUS -ne 0; then
 	echo "download font $NAME_FONT error!"
     exit $ERROR_CODE_DOWNLOAD
@@ -32,7 +32,7 @@ echo "move font $NAME_FONT..."
 
 RESULT_PATH=/usr/share/fonts/truetype/$NAME_FONT
 
-mv $TMP_UNZIP_PATH/ttf $RESULT_PATH || STATUS=$?
+mv $TMP_UNZIP_PATH/fonts/ttf $RESULT_PATH || STATUS=$?
 if test $STATUS -ne 0; then
 	echo "move font $NAME_FONT error!"
     exit $ERROR_CODE_MOVE
