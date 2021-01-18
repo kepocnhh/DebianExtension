@@ -10,6 +10,8 @@ DOWNLOAD_URL=https://github.com/JetBrains/JetBrainsMono/releases/download/v${VER
 
 TMP_FILE_PATH=/tmp/font_$NAME_FONT.zip
 
+STATUS=0
+
 curl -L $DOWNLOAD_URL -o $TMP_FILE_PATH || STATUS=$?
 if test $STATUS -ne 0; then
 	echo "download font $NAME_FONT error!"
@@ -20,7 +22,7 @@ echo "unzip font $NAME_FONT..."
 
 TMP_UNZIP_PATH=/tmp/font_$NAME_FONT
 
-unzip $TMP_FILE_PATH -d $TMP_UNZIP_PATH || STATUS=$?
+unzip -q $TMP_FILE_PATH -d $TMP_UNZIP_PATH || STATUS=$?
 if test $STATUS -ne 0; then
 	echo "unzip font $NAME_FONT error!"
     exit $ERROR_CODE_UNZIP
