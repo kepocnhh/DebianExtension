@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "mount..."
 
 ERROR_CODE_SERVICE=1

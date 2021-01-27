@@ -6,6 +6,7 @@ ERROR_CODE_COPY_SERVICE=3
 ERROR_CODE_COPY_MOUNT_SCRIPT=4
 ERROR_CODE_COPY_UMOUNT_SCRIPT=5
 ERROR_CODE_RELOAD_RULES=6
+ERROR_CODE_DAEMON_RELOAD=7
 
 if test -z $DEBIAN_EXTENSION_HOME; then
     echo "Debian extension home path must be not empty!"
@@ -50,6 +51,12 @@ udevadm control --reload-rules || STATUS=$?
 if test $STATUS -ne 0; then
     echo "Reload rules error!"
     exit $ERROR_CODE_RELOAD_RULES
+fi
+
+/usr/bin/systemctl daemon-reload || STATUS=$?
+if test $STATUS -ne 0; then
+    echo "Daemon reload error!"
+    exit $ERROR_CODE_DAEMON_RELOAD
 fi
 
 exit 0
