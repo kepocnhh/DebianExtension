@@ -21,7 +21,7 @@ fi
 DEVICE_PATH="/dev/$DEVICE_NAME"
 
 if test -e $DEVICE_PATH; then
-	# ignored
+	echo "Device \"$DEVICE_NAME\" exists..."
 else
     echo "Device \"$DEVICE_NAME\" must be exists!"
     exit $ERROR_CODE_DEVICE_EXISTS
