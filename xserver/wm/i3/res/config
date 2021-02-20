@@ -124,6 +124,8 @@ mode "resize" {
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
@@ -140,7 +142,7 @@ client.focused $color_bg $color_fg $color_tx $color_bg $color_bg
 client.unfocused $color_bg $color_bg $color_tx $color_bg $color_bg
 
 bar {
-# status_command i3status
+ status_command ~/status_command.sh
 
  colors {
   background $color_bg
