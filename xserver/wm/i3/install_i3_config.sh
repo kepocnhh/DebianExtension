@@ -44,10 +44,12 @@ RESULT_STATUS_COMMAND_PATH="$BIN_PATH/$STATUS_COMMAND_NAME"
 
 rm "$RESULT_STATUS_COMMAND_PATH"
 
-mkdir "$BIN_PATH"
-if test $? -ne 0; then
-    echo "Make bin dir $BIN_PATH error!"
-    exit $ERROR_CODE_MAKE_BIN_DIR
+if test ! -d "$BIN_PATH"; then
+	mkdir "$BIN_PATH"
+	if test $? -ne 0; then
+	    echo "Make bin dir $BIN_PATH error!"
+	    exit $ERROR_CODE_MAKE_BIN_DIR
+	fi
 fi
 
 cp "$I3_PATH/status/$STATUS_COMMAND_NAME" "$RESULT_STATUS_COMMAND_PATH"
