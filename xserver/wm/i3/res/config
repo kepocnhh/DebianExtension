@@ -142,7 +142,7 @@ client.focused $color_bg $color_fg $color_tx $color_bg $color_bg
 client.unfocused $color_bg $color_bg $color_tx $color_bg $color_bg
 
 bar {
- status_command ~/status_command.sh
+ status_command $HOME/.bin/status_command.sh
 
  colors {
   background $color_bg
