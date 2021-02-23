@@ -144,6 +144,9 @@ client.unfocused $color_bg $color_bg $color_tx $color_bg $color_bg
 bar {
  status_command $HOME/.bin/status_command.sh
 
+ wheel_up_cmd nop
+ wheel_down_cmd nop
+
  colors {
   background $color_bg
   focused_workspace $color_bg $color_fg $color_tx
