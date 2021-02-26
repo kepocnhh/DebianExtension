@@ -26,7 +26,7 @@ for ((i = 0; i < SIZE; i++)); do
  INFO=$(grep "$DEVICE" <<< "$INFO")
  if [ ! -z "$INFO" ]; then
   tmp=($INFO)
-  PATH=${m[1]}
+  PATH=${tmp[1]}
   RESULT="$PATH $RESULT"
  fi
 done
