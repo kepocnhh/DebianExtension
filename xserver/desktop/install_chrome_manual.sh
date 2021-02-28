@@ -14,16 +14,16 @@ DOWNLOAD_URL=https://dl.google.com/linux/direct/google-chrome-stable_current_amd
 
 TMP_FILE_PATH=/tmp/chrome.deb
 
-curl -s $DOWNLOAD_URL -o $TMP_FILE_PATH || STATUS=$?
-if test $STATUS -ne 0; then
+curl -s $DOWNLOAD_URL -o $TMP_FILE_PATH
+if test $? -ne 0; then
 	echo "download chrome error!"
     exit $ERROR_CODE_DOWNLOAD
 fi
 
 echo "install chrome..."
 
-apt install $TMP_FILE_PATH || STATUS=$?
-if test $STATUS -ne 0; then
+apt install -y TMP_FILE_PATH
+if test $? -ne 0; then
     echo "install chrome error!"
     exit $ERROR_CODE_INSTALL
 fi
@@ -33,7 +33,7 @@ rm $TMP_FILE_PATH
 google-chrome-stable --version
 
 cp $DEBIAN_EXTENSION_HOME/xserver/desktop/chrome.sh /usr/local/bin/chrome.sh
-if test $STATUS -ne 0; then
+if test $? -ne 0; then
 	echo "Copy chrome executable error!"
     exit $ERROR_CODE_COPY
 fi

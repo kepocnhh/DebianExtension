@@ -11,17 +11,15 @@ fi
 
 PACKAGE_NAME=$1
 
-if test -z $PACKAGE_NAME; then
+if test -z "$PACKAGE_NAME"; then
     echo "Package name must be not empty!"
     exit $ERROR_CODE_EMPTY_PACKAGE_NAME
 fi
 
 echo "install package \"$PACKAGE_NAME\" start."
 
-STATUS=0
-
-apt-get install -y --no-install-recommends $PACKAGE_NAME || STATUS=$?
-if test $STATUS -ne 0; then
+apt-get install -y --no-install-recommends "$PACKAGE_NAME"
+if test $? -ne 0; then
 	echo "install package \"$PACKAGE_NAME\" error!"
     exit $ERROR_CODE_INSTALL_APP
 fi
