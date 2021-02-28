@@ -14,7 +14,7 @@ DOWNLOAD_URL=https://dl.google.com/linux/direct/google-chrome-stable_current_amd
 
 TMP_FILE_PATH=/tmp/chrome.deb
 
-curl -s $DOWNLOAD_URL -o $TMP_FILE_PATH
+curl -s "$DOWNLOAD_URL" -o "$TMP_FILE_PATH"
 if test $? -ne 0; then
 	echo "download chrome error!"
     exit $ERROR_CODE_DOWNLOAD
@@ -22,7 +22,7 @@ fi
 
 echo "install chrome..."
 
-apt install -y TMP_FILE_PATH
+apt install -y "$TMP_FILE_PATH"
 if test $? -ne 0; then
     echo "install chrome error!"
     exit $ERROR_CODE_INSTALL
