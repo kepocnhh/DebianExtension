@@ -9,8 +9,6 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 bindsym $mod+Shift+q kill
 
-bindsym $mod+space exec dmenu_run
-
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -113,6 +111,8 @@ default_floating_border normal 1
 set $color_bg #000000
 set $color_fg #1976d2
 set $color_tx #ffffff
+
+bindsym $mod+space exec dmenu_run -nb '$color_bg' -sf '$color_tx' -sb '$color_fg' -nf '$color_tx'
 
 client.focused $color_bg $color_fg $color_tx $color_bg $color_bg
 client.unfocused $color_bg $color_bg $color_tx $color_bg $color_bg
