@@ -1,1 +1,1 @@
-/usr/bin/google-chrome-stable —force-dark-mode
+/usr/bin/google-chrome-stable --force-dark-mode
