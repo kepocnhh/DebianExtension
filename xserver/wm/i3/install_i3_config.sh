@@ -21,6 +21,7 @@ RESOURCE_PATH=$I3_PATH/res
 RESULT_CONFIG_PATH="$HOME/.config/i3/config"
 
 rm $RESULT_CONFIG_PATH
+mkdir -p "$HOME/.config/i3"
 
 cp $RESOURCE_PATH/config $RESULT_CONFIG_PATH
 if test $? -ne 0; then
@@ -31,6 +32,7 @@ fi
 RESULT_CONFIG_STATUS_PATH="$HOME/.config/i3status/config"
 
 rm $RESULT_CONFIG_STATUS_PATH
+mkdir -p "$HOME/.config/i3status"
 
 cp $RESOURCE_PATH/status/config $RESULT_CONFIG_STATUS_PATH
 if test $? -ne 0; then
