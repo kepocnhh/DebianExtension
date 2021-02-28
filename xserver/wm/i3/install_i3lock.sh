@@ -5,8 +5,6 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_SERVICE
 fi
 
-$DEBIAN_EXTENSION_HOME/common/install_package.sh playerctl
-
-playerctl --version
+$DEBIAN_EXTENSION_HOME/common/install_package.sh i3lock
 
 exit 0
