@@ -33,7 +33,7 @@ if test -z "$TIME_SCREEN_OFF"; then
  echo "Time screen off empty!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_EMPTY
 fi
-if test "$TIME_SCREEN_OFF" =~ \D; then
+if [[ "$TIME_SCREEN_OFF" =~ \D ]]; then
  echo "Time screen off number error!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_NUMBER
 fi
@@ -43,7 +43,7 @@ if test -z "$TIME_SCREEN_LOCK"; then
  echo "Time screen lock empty!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_EMPTY
 fi
-if test "$TIME_SCREEN_LOCK" =~ \D; then
+if [[ "$TIME_SCREEN_LOCK" =~ \D ]]; then
  echo "Time screen lock number error!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_NUMBER
 fi
@@ -53,7 +53,7 @@ if test -z "$TIME_SUSPEND"; then
  echo "Time suspend empty!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_EMPTY
 fi
-if test "$TIME_SUSPEND" =~ \D; then
+if [[ "$TIME_SUSPEND" =~ \D ]]; then
  echo "Time suspend number error!" >> $LOG_PATH
  exit $ERROR_CODE_ARGUMENT_NUMBER
 fi
@@ -76,7 +76,7 @@ if test -z "$TIME_IDLE"; then
  echo "Screensaver time idle empty!" >> $LOG_PATH
  exit $ERROR_CODE_SCREEN_SAVER_TIME_IDLE_EMPTY
 fi
-if test "$TIME_IDLE" =~ \D; then
+if [[ "$TIME_IDLE" =~ \D ]]; then
  echo "Screensaver time idle number error!" >> $LOG_PATH
  exit $ERROR_CODE_SCREEN_SAVER_TIME_IDLE_NUMBER
 fi
