@@ -5,7 +5,7 @@ ERROR_CODE_HOME=11
 ERROR_CODE_COPY_CONFIG_FILE=21
 ERROR_CODE_COPY_CONFIG_STATUS_FILE=31
 ERROR_CODE_MAKE_BIN_DIR=41
-ERROR_CODE_COPY_STATUS_COMMAND=51
+ERROR_CODE_COPY_COMMAND=51
 
 if test -z $DEBIAN_EXTENSION_HOME; then
     echo "Debian extension home path must be non-empty!"
@@ -41,22 +41,27 @@ if test $? -ne 0; then
 fi
 
 BIN_PATH="$HOME/.bin"
-STATUS_COMMAND_NAME="status_command.sh"
-RESULT_STATUS_COMMAND_PATH="$BIN_PATH/$STATUS_COMMAND_NAME"
-
-rm "$RESULT_STATUS_COMMAND_PATH"
-
 if test ! -d "$BIN_PATH"; then
-	mkdir "$BIN_PATH"
-	if test $? -ne 0; then
-	    echo "Make bin dir $BIN_PATH error!"
-	    exit $ERROR_CODE_MAKE_BIN_DIR
-	fi
+    mkdir "$BIN_PATH"
+    if test $? -ne 0; then
+        echo "Make bin dir $BIN_PATH error!"
+        exit $ERROR_CODE_MAKE_BIN_DIR
+    fi
 fi
 
-cp "$I3_PATH/status/$STATUS_COMMAND_NAME" "$RESULT_STATUS_COMMAND_PATH"
+COMMAND_NAME="status_command.sh"
+rm "$BIN_PATH/$COMMAND_NAME"
+cp "$I3_PATH/$COMMAND_NAME" "$BIN_PATH/$COMMAND_NAME"
 if test $? -ne 0; then
-    echo "Copy status command file error!"
+    echo "Copy \"$COMMAND_NAME\" command file error!"
+    exit $ERROR_CODE_COPY_STATUS_COMMAND
+fi
+
+COMMAND_NAME="on_idle_command.sh"
+rm "$BIN_PATH/$COMMAND_NAME"
+cp "$I3_PATH/$COMMAND_NAME" "$BIN_PATH/$COMMAND_NAME"
+if test $? -ne 0; then
+    echo "Copy \"$COMMAND_NAME\" command file error!"
     exit $ERROR_CODE_COPY_STATUS_COMMAND
 fi
 

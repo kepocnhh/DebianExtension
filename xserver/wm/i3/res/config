@@ -132,10 +132,8 @@ bar {
 
 bindsym $mod+l exec i3lock --color='$color_bg'
 
-set $time_display_off 300
+exec --no-startup-id xset dpms 0 0 0; xset s off
 
-exec --no-startup-id xset dpms 0 0 $time_display_off
-
-set $time_lock 8
-
-# exec --no-startup-id xautolock -time $time_lock -locker "i3lock --color='$color_bg'"
+# 1000*60*10 = 600000
+# 1000*60*5  = 300000
+exec --no-startup-id $HOME/.bin/on_idle_command.sh 600000 300000 300000
