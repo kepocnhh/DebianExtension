@@ -113,7 +113,9 @@ if test "$RESULT" == "true"; then
  exit 0
 fi
 
-[[ $TIME_IDLE -lt $TIME_SCREEN_LOCK ]] && exit 0
+TIME_RESULT=$TIME_SCREEN_OFF
+TIME_RESULT=$((TIME_RESULT+TIME_SCREEN_LOCK))
+[[ $TIME_IDLE -lt $TIME_RESULT ]] && exit 0
 
 RESULT=$(/usr/bin/pidof i3lock); CODE=$?
 if test -z "$RESULT"; then
@@ -135,7 +137,8 @@ else
  fi
 fi
 
-[[ $TIME_IDLE -lt $TIME_SUSPEND ]] && exit 0
+TIME_RESULT=$((TIME_RESULT+TIME_SUSPEND))
+[[ $TIME_IDLE -lt $TIME_RESULT ]] && exit 0
 
 sudo /usr/bin/systemctl suspend; CODE=$?
 if test $CODE -ne 0; then
