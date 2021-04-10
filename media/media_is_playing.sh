@@ -1,21 +1,17 @@
 #!/bin/bash
 
 ERROR_CODE_PLAYERS=10
-ERROR_CODE_PLAYERS=11
 
 CODE=0
 
 PLAYERS=$(/usr/bin/playerctl -l); CODE=$?
-if test $CODE -ne 0; then
- echo "Screensaver state error $CODE!"
- exit $ERROR_CODE_PLAYERS
-fi
+[[ $CODE -ne 0 ]] && exit $ERROR_CODE_PLAYERS
 [[ -z "$PLAYERS" ]] && exit 0
 
 while read -r PLAYER; do
  [[ -z "$PLAYER" ]] && continue
- STATUS=$(/usr/bin/playerctl --player="$PLAYER" status)
- [[ $? -ne 0 ]] && continue # todo
+ STATUS=$(/usr/bin/playerctl --player="$PLAYER" status); CODE=$?
+ [[ $CODE -ne 0 ]] && continue # todo
  case "$STATUS" in
   "Playing")
    echo "true"
@@ -23,5 +19,7 @@ while read -r PLAYER; do
   ;;
  esac
 done <<< "$PLAYERS"
+
+echo "false"
 
 exit 0
