@@ -83,7 +83,7 @@ fi
 
 [[ $TIME_IDLE -lt $((TIME_SCREEN_OFF/2)) ]] && exit 0
 
-RESULT=$($DEBIAN_EXTENSION_HOME/media/media_is_palying.sh); CODE=$?
+RESULT=$($DEBIAN_EXTENSION_HOME/media/media_is_playing.sh); CODE=$?
 if test $CODE -ne 0; then
  echo "Media is playing error $CODE!" >> $LOG_PATH
  exit $ERROR_CODE_MEDIA_IS_PLAYING
