@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "install libpam-systemd..."
+echo "install dbus..."
 
 ERROR_CODE_EXTENSION_HOME=10
 ERROR_CODE_INSTALL=21
@@ -10,8 +10,8 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_EXTENSION_HOME
 fi
 
-$DEBIAN_EXTENSION_HOME/common/install_package.sh libpam-systemd || exit $ERROR_CODE_INSTALL
+$DEBIAN_EXTENSION_HOME/common/install_package.sh dbus || exit $ERROR_CODE_INSTALL
 
-echo "install libpam-systemd success"
+echo "install dbus success"
 
 exit 0
