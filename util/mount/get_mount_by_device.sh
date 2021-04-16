@@ -3,6 +3,7 @@
 ERROR_CODE_DEVICE_EXIST=11
 ERROR_CODE_DEVICE_EMPTY=21
 ERROR_CODE_RESULT_EMPTY=31
+ERROR_CODE_MOUNTS_EMPTY=41
 
 tmp=$(ls /dev/sd*)
 if test $? -ne 0; then
@@ -18,16 +19,21 @@ fi
 
 array=(${tmp//$'\n'/ })
 SIZE=${#array[@]}
+
+MOUNTS=$(cat /proc/mounts)
+if test -z "$MOUNTS"; then
+ echo "Mounts empty!"
+ exit $ERROR_CODE_MOUNTS_EMPTY
+fi
+
 RESULT=""
 for ((i = 0; i < SIZE; i++)); do
  DEVICE="${array[$i]}"
- INFO=$(cat /proc/mounts)
  [[ $? -ne 0 ]] && continue
- INFO=$(grep "$DEVICE" <<< "$INFO")
- if [ ! -z "$INFO" ]; then
+ INFO=$(grep "$DEVICE" <<< "$MOUNTS")
+ if test -n "$INFO"; then
   tmp=($INFO)
-  PATH=${tmp[1]}
-  RESULT="$PATH $RESULT"
+  RESULT="${tmp[1]} $RESULT"
  fi
 done
 
