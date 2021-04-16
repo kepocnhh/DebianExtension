@@ -25,9 +25,8 @@ for ((i = 0; i < SIZE; i++)); do
 done
 
 array=(\
+"xserver/xorg/install.sh" \
 "xserver/install_xinit.sh" \
-"xserver/xorg/install_xserver-xorg-core.sh" \
-"xserver/xorg/install_xserver-xorg-input-all.sh" \
 "xserver/install_x11-xserver-utils.sh")
 SIZE=${#array[@]}
 for ((i = 0; i < SIZE; i++)); do
