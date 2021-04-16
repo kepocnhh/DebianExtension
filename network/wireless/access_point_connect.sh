@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "access point connect..."
 
 ERROR_CODE_SERVICE=1
@@ -32,14 +34,14 @@ if test "$NI_STATE" != "$NI_STATE_EXPECTED"; then
     exit $ERROR_CODE_NETWORK_INTERFACE_STATE
 fi
 
-STATUS=0
-
+#DRIVER=wext
+DRIVER=nl80211
 /usr/sbin/wpa_supplicant \
     -B \
-    -D wext \
+    -D $DRIVER \
     -i $NI_NAME \
-    -c "/etc/wpa_supplicant.$SSID.conf" || STATUS=$?
-if test $STATUS -ne 0; then
+    -c "/etc/wpa_supplicant.$SSID.conf"
+if test $? -ne 0; then
 	echo "Connect to access point \"$SSID\" error!"
     exit $ERROR_CODE_CONNECT
 fi
