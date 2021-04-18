@@ -11,10 +11,10 @@ if test -z $DEBIAN_EXTENSION_HOME; then
 fi
 
 ARRAY=(\
-"intel/install_xserver-xorg-video-intel.sh" \
-"intel/install_intel_config.sh" \
 "install_xserver-xorg-core.sh" \
-"install_xserver-xorg-input-all.sh")
+"install_xserver-xorg-input-all.sh" \
+"intel/install_xserver-xorg-video-intel.sh" \
+"intel/install_intel_config.sh")
 SIZE=${#ARRAY[@]}
 for ((i = 0; i < SIZE; i++)); do
  ITEM="${ARRAY[$i]}"

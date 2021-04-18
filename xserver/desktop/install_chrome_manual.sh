@@ -1,4 +1,4 @@
-echo "download chrome..."
+#!/bin/bash
 
 ERROR_CODE_EXTENSION_HOME=10
 ERROR_CODE_DOWNLOAD=11
@@ -10,7 +10,13 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_EXTENSION_HOME
 fi
 
-DOWNLOAD_URL=https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+echo "download chrome..."
+
+#VERSION="78.0.3904.87-1"
+VERSION="87.0.4280.66-1"
+#VERSION="89.0.4389.90-1"
+#VERSION="90.0.4430.72-1"
+DOWNLOAD_URL=http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${VERSION}_amd64.deb
 
 TMP_FILE_PATH=/tmp/chrome.deb
 
@@ -29,8 +35,6 @@ if test $? -ne 0; then
 fi
 
 rm $TMP_FILE_PATH
-
-google-chrome-stable --version
 
 cp $DEBIAN_EXTENSION_HOME/xserver/desktop/chrome.sh /usr/local/bin/chrome.sh
 if test $? -ne 0; then
