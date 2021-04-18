@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "install i3 config..."
 
 ERROR_CODE_EXTENSION_HOME=10
@@ -40,7 +42,7 @@ if test $? -ne 0; then
     exit $ERROR_CODE_COPY_CONFIG_STATUS_FILE
 fi
 
-BIN_PATH="$HOME/.bin"
+BIN_PATH="$HOME/.local/bin"
 if test ! -d "$BIN_PATH"; then
     mkdir "$BIN_PATH"
     if test $? -ne 0; then
