@@ -7,6 +7,8 @@ ERROR_CODE_EMPTY_DEVICE_NAME=2
 ERROR_CODE_MOUNT_PATH_EXISTS=3
 ERROR_CODE_UMOUNT=4
 
+CODE=0
+
 if test $# -ne 1; then
     echo "Script needs for 1 arguments but actual $#"
     exit $ERROR_CODE_SERVICE
@@ -19,7 +21,7 @@ if test -z $DEVICE_NAME; then
     exit $ERROR_CODE_EMPTY_DEVICE_NAME
 fi
 
-MOUNT_PATH="/mnt/$DEVICE_NAME"
+MOUNT_PATH="/mnt/dev/$DEVICE_NAME"
 
 if test -d $MOUNT_PATH; then
     echo "Mount dir \"$DEVICE_NAME\" exists..."
@@ -28,11 +30,9 @@ else
     exit $ERROR_CODE_MOUNT_PATH_EXISTS
 fi
 
-STATUS=0
-
-/usr/bin/umount $MOUNT_PATH || STATUS=$?
-if test $STATUS -ne 0; then
-    echo "Umount \"$DEVICE_NAME\" error!"
+/usr/bin/umount $MOUNT_PATH || CODE=$?
+if test $CODE -ne 0; then
+    echo "Umount \"$DEVICE_NAME\" error $CODE!"
     exit $ERROR_CODE_UMOUNT
 fi
 
