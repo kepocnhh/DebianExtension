@@ -1,3 +1,6 @@
+[Unit]
+ConditionEnvironment=MOUNT_AUTO=true
+
 [Service]
 Type=oneshot
 RemainAfterExit=true
