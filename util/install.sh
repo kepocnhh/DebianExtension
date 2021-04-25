@@ -10,7 +10,7 @@ if test -z $DEBIAN_EXTENSION_HOME; then
     exit $ERROR_CODE_SERVICE
 fi
 
-array=("curl" "default" "exfat-fuse" "openssl" "unzip" "usb_mount")
+array=("curl" "default" "exfat-fuse" "openssl" "unzip" "usb_mount_service")
 SIZE=${#array[@]}
 for ((i = 0; i < SIZE; i++)); do
  ITEM="${array[$i]}"
