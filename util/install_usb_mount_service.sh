@@ -41,7 +41,7 @@ if test $CODE -ne 0; then
  exit $ERROR_CODE_COPY_MOUNT_SCRIPT
 fi
 
-FILE_NAME="usb_umount_auto.sh"
+FILE_NAME="usb_umount.sh"
 
 cp $DEBIAN_EXTENSION_HOME/util/mount/$FILE_NAME /usr/local/bin/$FILE_NAME; CODE=$?
 if test $CODE -ne 0; then

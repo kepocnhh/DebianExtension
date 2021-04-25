@@ -3,5 +3,5 @@ Type=oneshot
 RemainAfterExit=true
 EnvironmentFile=/etc/environment.d/systemd.env
 ExecStartPre=/usr/bin/test $MOUNT_AUTO == true
-ExecStart=/usr/local/bin/usb_mount.sh %i
-ExecStop=/usr/local/bin/usb_umount_auto.sh /dev/%i
+ExecStart=/usr/local/bin/usb_mount.sh /dev/%i
+ExecStop=/usr/local/bin/usb_umount.sh /dev/%i

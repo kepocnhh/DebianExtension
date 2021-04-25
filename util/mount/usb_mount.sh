@@ -3,58 +3,52 @@
 echo "mount..."
 
 ERROR_CODE_SERVICE=1
-ERROR_CODE_EMPTY_DEVICE_NAME=2
-ERROR_CODE_DEVICE_EXISTS=3
-ERROR_CODE_MOUNT_DIR_EXISTS=41
-ERROR_CODE_MOUNT_DIR_EMPTY=42
-ERROR_CODE_MOUNT_CHANGE_OWNER=43
+ERROR_CODE_DEVICE_EMPTY=21
+ERROR_CODE_DEVICE_EXISTS=22
+ERROR_CODE_MOUNTPOINT_EXISTS=31
+ERROR_CODE_MOUNTPOINT_CHANGE_OWNER=32
 ERROR_CODE_MOUNT=5
 
 CODE=0
 
+
 if test $# -ne 1; then
-    echo "Script needs for 1 arguments but actual $#"
-    exit $ERROR_CODE_SERVICE
+ echo "Script needs for 1 arguments but actual $#"
+ exit $ERROR_CODE_SERVICE
 fi
 
-DEVICE_NAME=$1
+DEVICE=$1
 
-if test -z $DEVICE_NAME; then
-    echo "Device name must be not empty!"
-    exit $ERROR_CODE_EMPTY_DEVICE_NAME
+if test -z "$DEVICE"; then
+ echo "Device is empty!"
+ exit $ERROR_CODE_DEVICE_EMPTY
 fi
-
-DEVICE_PATH="/dev/$DEVICE_NAME"
-
-if test -e $DEVICE_PATH; then
-	echo "Device \"$DEVICE_NAME\" exists..."
+if test -e "$DEVICE"; then
+ echo "Device \"$DEVICE_NAME\" exists..."
 else
-    echo "Device \"$DEVICE_NAME\" must be exists!"
-    exit $ERROR_CODE_DEVICE_EXISTS
+ echo "Device \"$DEVICE_NAME\" does not exist!"
+ exit $ERROR_CODE_DEVICE_EXISTS
 fi
 
-MOUNT_PATH="/mnt/dev/$DEVICE_NAME"
-
-if test -d $MOUNT_PATH; then
-# if [ "$(ls $MOUNT_PATH)" ]; then
-#  echo "Mount dir \"$DEVICE_NAME\" must be empty!"
-#  exit $ERROR_CODE_MOUNT_DIR_EMPTY
-# fi
- echo "Mount dir \"$DEVICE_NAME\" exists!"
- exit $ERROR_CODE_MOUNT_DIR_EXISTS
+MOUNTPOINT="${DEVICE}.m"
+if test -d "$MOUNTPOINT"; then
+ echo "Mount point \"$DEVICE\" exists!"
+ exit $ERROR_CODE_MOUNTPOINT_EXISTS
 else
- mkdir -p $MOUNT_PATH
- chown root:users $MOUNT_PATH || CODE=$?
+ /usr/bin/mkdir -p $MOUNTPOINT
+ /usr/bin/chown root:users $MOUNTPOINT; CODE=$?
  if test $CODE -ne 0; then
-  echo "Mount \"$DEVICE_NAME\" change owner error $CODE!"
-  exit $ERROR_CODE_MOUNT_CHANGE_OWNER
+  echo "Mount \"$DEVICE\" change owner error $CODE!"
+  exit $ERROR_CODE_MOUNTPOINT_CHANGE_OWNER
  fi
 fi
 
-/usr/bin/mount -o umask=0 $DEVICE_PATH $MOUNT_PATH || CODE=$?
+/usr/bin/mount -o umask=0 $DEVICE $MOUNTPOINT; CODE=$?
 if test $CODE -ne 0; then
- echo "Mount \"$DEVICE_NAME\" error $CODE!"
+ echo "Mount \"$DEVICE\" error $CODE!"
  exit $ERROR_CODE_MOUNT
 fi
+
+echo "mount \"$DEVICE\" success"
 
 exit 0
