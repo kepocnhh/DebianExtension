@@ -24,9 +24,9 @@ if test -z "$DEVICE"; then
  exit $ERROR_CODE_DEVICE_EMPTY
 fi
 if test -e "$DEVICE"; then
- echo "Device \"$DEVICE_NAME\" exists..."
+ echo "Device \"$DEVICE\" exists..."
 else
- echo "Device \"$DEVICE_NAME\" does not exist!"
+ echo "Device \"$DEVICE\" does not exist!"
  exit $ERROR_CODE_DEVICE_EXISTS
 fi
 
