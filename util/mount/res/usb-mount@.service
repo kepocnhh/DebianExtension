@@ -1,8 +1,7 @@
-[Unit]
-ConditionEnvironment=MOUNT_AUTO=true
-
 [Service]
 Type=oneshot
 RemainAfterExit=true
+EnvironmentFile=/etc/environment.d/systemd.env
+ExecStartPre=/usr/bin/test $MOUNT_AUTO == true
 ExecStart=/usr/local/bin/usb_mount.sh %i
 ExecStop=/usr/local/bin/usb_umount.sh %i
