@@ -3,7 +3,7 @@
 echo "umount auto..."
 
 ERROR_CODE_SERVICE=1
-ERROR_CODE_EMPTY_DEVICE_NAME=2
+ERROR_CODE_EMPTY_DEVICE_EMPTY=2
 ERROR_CODE_MOUNTPOINT_GET=31
 ERROR_CODE_MOUNTPOINT_EMPTY=32
 ERROR_CODE_MOUNTPOINT_EXISTS=33
@@ -16,32 +16,32 @@ if test $# -ne 1; then
  exit $ERROR_CODE_SERVICE
 fi
 
-DEVICE_NAME=$1
+DEVICE=$1
 
-if test -z "$DEVICE_NAME"; then
-    echo "Device name must be not empty!"
-    exit $ERROR_CODE_EMPTY_DEVICE_NAME
+if test -z "$DEVICE"; then
+    echo "Device is empty!"
+    exit $ERROR_CODE_EMPTY_DEVICE_EMPTY
 fi
 
 MOUNTPOINT=$(/usr/bin/lsblk -nb "$DEVICE" -o MOUNTPOINT); CODE=$?
 if test $CODE -ne 0; then
- echo "Get mount point \"$DEVICE_NAME\" error $CODE!"
+ echo "Get mount point \"$DEVICE\" error $CODE!"
  exit $ERROR_CODE_MOUNTPOINT_GET
 fi
 if test -z "$MOUNTPOINT"; then
- echo "Mount point \"$DEVICE_NAME\" is empty!"
+ echo "Mount point \"$DEVICE\" is empty!"
  exit $ERROR_CODE_MOUNTPOINT_EMPTY
 fi
 if test -d "$MOUNTPOINT"; then
- echo "Mount point \"$DEVICE_NAME\" exists..."
+ echo "Mount point \"$DEVICE\" exists..."
 else
- echo "Mount point \"$DEVICE_NAME\" does not exist!"
+ echo "Mount point \"$DEVICE\" does not exist!"
  exit $ERROR_CODE_MOUNTPOINT_EXISTS
 fi
 
 /usr/bin/umount $MOUNTPOINT; CODE=$?
 if test $CODE -ne 0; then
- echo "Umount \"$DEVICE_NAME\" error $CODE!"
+ echo "Umount \"$DEVICE\" error $CODE!"
  exit $ERROR_CODE_UMOUNT
 fi
 
