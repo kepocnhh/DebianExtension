@@ -6,13 +6,13 @@ ERROR_CODE_EXTENSION_HOME=10
 ERROR_CODE_INSTALL=200
 
 if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_EXTENSION_HOME
+ echo "Debian extension home path must be not empty!"
+ exit $ERROR_CODE_EXTENSION_HOME
 fi
 
 ARRAY=(\
-"bluetooth_config" \
-"pulseaudio-module-bluetooth")
+"pulseaudio-module-bluetooth" \
+"bluetooth_config")
 SIZE=${#ARRAY[@]}
 for ((i = 0; i < SIZE; i++)); do
  ITEM="${ARRAY[$i]}"
