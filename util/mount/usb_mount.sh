@@ -40,13 +40,13 @@ fi
 
 MOUNTPOINT="${DEVICE}.m"
 if test -d "$MOUNTPOINT"; then
- echo "Mount point \"$DEVICE\" exists!"
+ echo "Mount point \"$MOUNTPOINT\" of \"$DEVICE\" exists!"
  exit $ERROR_CODE_MOUNTPOINT_EXISTS
 else
  /usr/bin/mkdir -p $MOUNTPOINT
  /usr/bin/chown root:users $MOUNTPOINT; CODE=$?
  if test $CODE -ne 0; then
-  echo "Mount \"$DEVICE\" change owner error $CODE!"
+  echo "Mount \"$MOUNTPOINT\" of \"$DEVICE\" change owner error $CODE!"
   exit $ERROR_CODE_MOUNTPOINT_CHANGE_OWNER
  fi
 fi
@@ -62,7 +62,7 @@ case "$FSTYPE" in
 esac
 CODE=$?
 if test $CODE -ne 0; then
- echo "Mount \"$DEVICE\" error $CODE!"
+ echo "Mount \"$DEVICE\" ($FSTYPE) to \"$MOUNTPOINT\" error $CODE!"
  exit $ERROR_CODE_MOUNT
 fi
 
