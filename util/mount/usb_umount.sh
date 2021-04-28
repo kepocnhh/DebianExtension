@@ -36,10 +36,9 @@ fi
 
 /usr/bin/umount $MOUNTPOINT; CODE=$?
 if test $CODE -eq 32; then
- REASON=$(/usr/bin/fuser -c $MOUNTPOINT)
- echo "Umount \"$DEVICE\" from \"$MOUNTPOINT\" error because \"$REASON\"!"
- exit $ERROR_CODE_UMOUNT
-elif test $CODE -ne 0; then
+ /usr/bin/umount -l $MOUNTPOINT; CODE=$?
+fi
+if test $CODE -ne 0; then
  echo "Umount \"$DEVICE\" from \"$MOUNTPOINT\" error $CODE!"
  exit $ERROR_CODE_UMOUNT
 fi
