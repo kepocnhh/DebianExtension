@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "mount..."
+echo "Mount..."
 
 ERROR_CODE_SERVICE=1
 ERROR_CODE_DEVICE_EMPTY=21
@@ -13,9 +13,8 @@ ERROR_CODE_MOUNT=5
 
 CODE=0
 
-
 if test $# -ne 1; then
- echo "Script needs for 1 arguments but actual $#"
+ echo "Script needs for 1 arguments but actual $#!"
  exit $ERROR_CODE_SERVICE
 fi
 
@@ -66,6 +65,6 @@ if test $CODE -ne 0; then
  exit $ERROR_CODE_MOUNT
 fi
 
-echo "mount \"$DEVICE\" success"
+echo "Mount \"$DEVICE\" ($FSTYPE) to \"$MOUNTPOINT\" success."
 
 exit 0
