@@ -11,7 +11,7 @@ if test -z $DEBIAN_EXTENSION_HOME; then
 fi
 
 CODE=0
-array=(session media network util)
+array=(session media network/bluetooth util)
 SIZE=${#array[@]}
 for ((i = 0; i < SIZE; i++)); do
  ITEM="${array[$i]}"
