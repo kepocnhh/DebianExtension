@@ -44,7 +44,7 @@ fi
 
 BIN_PATH="$HOME/.local/bin"
 if test ! -d "$BIN_PATH"; then
-    mkdir "$BIN_PATH"
+    mkdir -p "$BIN_PATH"
     if test $? -ne 0; then
         echo "Make bin dir $BIN_PATH error!"
         exit $ERROR_CODE_MAKE_BIN_DIR
