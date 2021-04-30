@@ -22,7 +22,7 @@ fi
 echo "unzip font $NAME_FONT..."
 
 TMP_UNZIP_PATH=/tmp/font_$NAME_FONT
-rm $TMP_FILE_PATH
+rm -rf $TMP_UNZIP_PATH
 
 unzip -q $TMP_FILE_PATH -d $TMP_UNZIP_PATH || STATUS=$?
 if test $STATUS -ne 0; then
