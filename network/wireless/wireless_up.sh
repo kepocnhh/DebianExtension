@@ -11,11 +11,6 @@ ERROR_CODE_NETWORK_INTERFACE_UP=50
 ERROR_CODE_ACCESS_POINT_CONNECT=60
 ERROR_CODE_DHCLIENT=70
 
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be non-empty!"
-    exit $ERROR_CODE_EXTENSION_HOME
-fi
-
 ARGUMENT_COUNT_EXPECTED=2
 if test $# -ne $ARGUMENT_COUNT_EXPECTED; then
     echo "Script needs for $ARGUMENT_COUNT_EXPECTED arguments but actual $#"
