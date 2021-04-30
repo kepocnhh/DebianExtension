@@ -56,9 +56,15 @@ case "$NI_STATE" in
  ;;
 esac
 
-$DEBIAN_EXTENSION_HOME/network/wireless/access_point_connect.sh $NI_NAME $SSID; CODE=$?
-if test $CODE -ne 0; then
- echo "Access point connect error $CODE!"
+#DRIVER=wext
+DRIVER=nl80211
+/usr/sbin/wpa_supplicant \
+    -B \
+    -D $DRIVER \
+    -i $NI_NAME \
+    -c "/etc/wpa_supplicant.$SSID.conf"
+if test $? -ne 0; then
+  echo "Connect to access point \"$SSID\" error!"
  exit $ERROR_CODE_ACCESS_POINT_CONNECT
 fi
 
