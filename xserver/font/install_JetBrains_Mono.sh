@@ -9,6 +9,7 @@ VERSION_FONT="2.221"
 DOWNLOAD_URL=https://github.com/JetBrains/JetBrainsMono/releases/download/v${VERSION_FONT}/JetBrainsMono-${VERSION_FONT}.zip
 
 TMP_FILE_PATH=/tmp/font_$NAME_FONT.zip
+rm $TMP_FILE_PATH
 
 STATUS=0
 
@@ -33,6 +34,7 @@ rm $TMP_FILE_PATH
 echo "move font $NAME_FONT..."
 
 RESULT_PATH=/usr/share/fonts/truetype/$NAME_FONT
+rm -rf $RESULT_PATH
 
 mv $TMP_UNZIP_PATH/fonts/ttf $RESULT_PATH || STATUS=$?
 if test $STATUS -ne 0; then
