@@ -1,28 +1,22 @@
 #!/bin/bash
 
-echo "install bluetooth..."
+echo "Install bluetooth..."
 
-ERROR_CODE_EXTENSION_HOME=10
-ERROR_CODE_INSTALL=200
-
-if test -z $DEBIAN_EXTENSION_HOME; then
- echo "Debian extension home path must be not empty!"
- exit $ERROR_CODE_EXTENSION_HOME
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
 ARRAY=(\
 "pulseaudio-module-bluetooth" \
 "bluetooth_config")
-SIZE=${#ARRAY[@]}
-for ((i = 0; i < SIZE; i++)); do
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/network/bluetooth/install_${ITEM}.sh
+ $DEBIAN_EXTENSION_HOME/core/network/bluetooth/install_${ITEM}.sh
  if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL + i))
+  echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
 
-echo "install bluetooth success."
+echo "Install bluetooth success."
 
 exit 0

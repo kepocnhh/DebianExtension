@@ -1,30 +1,24 @@
 #!/bin/bash
 
-echo "install default..."
+echo "Install default..."
 
-ERROR_CODE_SERVICE=1
-ERROR_CODE_COPY=100
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
 DEFAULT_PATH="/etc/default"
-array=("console-setup" "keyboard")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
+ARRAY=("console-setup" "keyboard")
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  FILE_NAME="${array[$i]}"
  RESULT_PATH="$DEFAULT_PATH/$FILE_NAME"
  rm "$RESULT_PATH"
  cp "$DEBIAN_EXTENSION_HOME/debian$RESULT_PATH" "$RESULT_PATH"
  if test $? -ne 0; then
-  echo "Copy \"$RESULT_PATH\" file error!"
-  exit $((ERROR_CODE_COPY + i))
+  echo "Copy \"$FILE_NAME\" file error!"; exit $((20 + i))
  fi
  echo "Copy \"$RESULT_PATH\" file success."
 done
 
-echo "install default success."
+echo "Install default success."
 
 exit 0

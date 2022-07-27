@@ -1,28 +1,20 @@
 #!/bin/bash
 
-echo "install session..."
+echo "Install session..."
 
-ERROR_CODE_EXTENSION_HOME=10
-ERROR_CODE_INSTALL=200
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_EXTENSION_HOME
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-ARRAY=(\
-"dbus" \
-"libpam-systemd")
-SIZE=${#ARRAY[@]}
-for ((i = 0; i < SIZE; i++)); do
+ARRAY=(dbus "libpam-systemd")
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/session/install_${ITEM}.sh
+ $DEBIAN_EXTENSION_HOME/common/install_package.sh "$ITEM"
  if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL + i))
+  echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
 
-echo "install session success."
+echo "Install session success."
 
 exit 0

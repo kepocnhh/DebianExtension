@@ -1,29 +1,21 @@
-echo "install package..."
+#!/bin/bash
 
-ERROR_CODE_SERVICE=1
-ERROR_CODE_EMPTY_PACKAGE_NAME=2
-ERROR_CODE_INSTALL_APP=3
+echo "Install package..."
 
 if test $# -ne 1; then
-    echo "Script needs for 1 arguments but actual $#"
-    exit $ERROR_CODE_SERVICE
+  echo "Script needs for 1 arguments but actual $#!"; exit 12
 fi
 
 PACKAGE_NAME=$1
 
-if test -z "$PACKAGE_NAME"; then
-    echo "Package name must be not empty!"
-    exit $ERROR_CODE_EMPTY_PACKAGE_NAME
-fi
+for it in PACKAGE_NAME; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
 
-echo "install package \"$PACKAGE_NAME\" start."
-
-apt-get install -y --no-install-recommends "$PACKAGE_NAME"
+apt-get install --no-install-recommends -y "$PACKAGE_NAME"
 if test $? -ne 0; then
-	echo "install package \"$PACKAGE_NAME\" error!"
-    exit $ERROR_CODE_INSTALL_APP
+ echo "Install package \"$PACKAGE_NAME\" error!"; exit 21
 fi
 
-echo "install package \"$PACKAGE_NAME\" success."
+echo "Install package \"$PACKAGE_NAME\" success."
 
 exit 0

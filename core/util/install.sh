@@ -1,26 +1,20 @@
 #!/bin/bash
 
-echo "install util..."
+echo "Install util..."
 
-ERROR_CODE_SERVICE=1
-ERROR_CODE_INSTALL=100
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-array=("curl" "default" "exfat-fuse" "openssl" "unzip" "usb_mount_service")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
- ITEM="${array[$i]}"
- $DEBIAN_EXTENSION_HOME/util/install_${ITEM}.sh
+ARRAY=("curl" "default" "exfat-fuse" "openssl" "unzip" "usb_mount_service")
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
+ ITEM="${ARRAY[$i]}"
+ $DEBIAN_EXTENSION_HOME/core/util/install_${ITEM}.sh
  if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL + i))
+  echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
 
-echo "install util success."
+echo "Install util success."
 
 exit 0

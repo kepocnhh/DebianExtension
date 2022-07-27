@@ -1,66 +1,47 @@
 #!/bin/bash
 
-echo "install mount service..."
+echo "Install mount service..."
 
-ERROR_CODE_SERVICE=1
-ERROR_CODE_COPY_RULES=2
-ERROR_CODE_COPY_SERVICE=3
-ERROR_CODE_COPY_MOUNT_SCRIPT=4
-ERROR_CODE_COPY_UMOUNT_SCRIPT=5
-ERROR_CODE_RELOAD_RULES=6
-ERROR_CODE_DAEMON_RELOAD=7
-
-if test -z "$DEBIAN_EXTENSION_HOME"; then
- echo "Debian extension home path is empty!"
- exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
 CODE=0
 
 FILE_NAME="99-usb-mount.rules"
-
-cp $DEBIAN_EXTENSION_HOME/util/mount/res/$FILE_NAME /etc/udev/rules.d/$FILE_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Copy mount rules error!"
- exit $ERROR_CODE_COPY_RULES
+cp $DEBIAN_EXTENSION_HOME/core/util/mount/res/$FILE_NAME /etc/udev/rules.d/$FILE_NAME
+if test $? -ne 0; then
+ echo "Copy mount rules error!"; exit 21
 fi
 
 FILE_NAME="usb-mount@.service"
-
-cp $DEBIAN_EXTENSION_HOME/util/mount/res/$FILE_NAME /lib/systemd/system/$FILE_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Copy mount service error!"
- exit $ERROR_CODE_COPY_SERVICE
+cp $DEBIAN_EXTENSION_HOME/core/util/mount/res/$FILE_NAME /lib/systemd/system/$FILE_NAME
+if test $? -ne 0; then
+ echo "Copy mount service error!"; exit 22
 fi
 
 FILE_NAME="usb_mount.sh"
-
-cp $DEBIAN_EXTENSION_HOME/util/mount/$FILE_NAME /usr/local/bin/$FILE_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Copy mount script error!"
- exit $ERROR_CODE_COPY_MOUNT_SCRIPT
+cp $DEBIAN_EXTENSION_HOME/core/util/mount/$FILE_NAME /usr/local/bin/$FILE_NAME
+if test $? -ne 0; then
+ echo "Copy mount script error!"; exit 23
 fi
 
 FILE_NAME="usb_umount.sh"
-
-cp $DEBIAN_EXTENSION_HOME/util/mount/$FILE_NAME /usr/local/bin/$FILE_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Copy umount script error!"
- exit $ERROR_CODE_COPY_UMOUNT_SCRIPT
+cp $DEBIAN_EXTENSION_HOME/core/util/mount/$FILE_NAME /usr/local/bin/$FILE_NAME
+if test $? -ne 0; then
+ echo "Copy umount script error!"; exit 24
 fi
 
-udevadm control --reload-rules; CODE=$?
-if test $CODE -ne 0; then
- echo "Reload rules error!"
- exit $ERROR_CODE_RELOAD_RULES
+udevadm control --reload-rules
+if test $? -ne 0; then
+ echo "Reload rules error!"; exit 25
 fi
 
-/usr/bin/systemctl daemon-reload; CODE=$?
-if test $CODE -ne 0; then
- echo "Daemon reload error!"
- exit $ERROR_CODE_DAEMON_RELOAD
+/usr/bin/systemctl daemon-reload
+if test $? -ne 0; then
+ echo "Daemon reload error!"; exit 26
 fi
 
-echo "install mount service success"
+echo "Install mount service success."
 
 exit 0

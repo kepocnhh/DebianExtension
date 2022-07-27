@@ -1,29 +1,23 @@
 #!/bin/bash
 
-echo "install media..."
+echo "Install media..."
 
-ERROR_CODE_SERVICE=1
-ERROR_CODE_INSTALL_COMMON=200
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-array=(\
+ARRAY=(\
 "audio/install_alsa-utils.sh" \
 "audio/install_pulseaudio.sh" \
 "install_playerctl.sh")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
- ITEM="${array[$i]}"
- $DEBIAN_EXTENSION_HOME/media/$ITEM
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
+ ITEM="${ARRAY[$i]}"
+ $DEBIAN_EXTENSION_HOME/core/media/$ITEM
  if test $? -ne 0; then
-  echo "Install common \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL_COMMON + i))
+  echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
 
-echo "install media success."
+echo "Install media success."
 
 exit 0
