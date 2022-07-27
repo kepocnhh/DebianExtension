@@ -2,7 +2,7 @@
 
 echo "Install core..."
 
-if [ ! -d $DEBIAN_EXTENSION_HOME ]; then
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
  echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
