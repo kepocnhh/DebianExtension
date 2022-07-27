@@ -25,7 +25,7 @@ FILE_NAME="debian-${VERSION}-${ARCHITECTURE}.iso"
 RESULT_PATH="$HOME/Downloads/$FILE_NAME"
 rm -f "$RESULT_PATH"
 
-curl -L "$URL" -o "$RESULT_PATH"
+curl -L "$URL" -f -o "$RESULT_PATH"
 if test $? -ne 0; then
  echo "Download error!"; exit 14
 fi
