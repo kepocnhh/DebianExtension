@@ -1,34 +1,30 @@
 #!/bin/bash
 
-echo "install Debian Extension..."
+REPOSITORY_OWNER="kepocnhh"
+REPOSITORY_NAME="DebianExtension"
 
-ERROR_CODE_INSTALL=10
-ERROR_CODE_REMOVE=20
-ERROR_CODE_CLONE=30
+echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME}..."
 
-CODE=0
-/usr/bin/apt-get install -y --no-install-recommends git ca-certificates; CODE=$?
-if test $CODE -ne 0; then
- echo "Install required error $CODE!"
- exit $ERROR_CODE_INSTALL
+/usr/bin/apt-get install --no-install-recommends -y git ca-certificates
+if test $? -ne 0; then
+ echo "Install required error!"; exit 11
 fi
 
 PATH="/usr/local/bin/DebianExtension"
 if test -d "$PATH"; then
- /usr/bin/rm -rf $PATH; CODE=$?
- if test $CODE -ne 0; then
-  echo "Remove error $CODE!"
-  exit $ERROR_CODE_REMOVE
+ /usr/bin/rm -rf $PATH
+ if test $? -ne 0; then
+  echo "Delete \"$PATH\" error!"; exit 12
  fi
 fi
-/usr/bin/git clone https://github.com/kepocnhh/DebianExtension.git $PATH; CODE=$?
-if test $CODE -ne 0; then
- echo "Clone error $CODE!"
- exit $ERROR_CODE_CLONE
+
+/usr/bin/git clone https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git $PATH
+if test $? -ne 0; then
+ echo "Clone error!"; exit 13
 fi
 
 echo "DEBIAN_EXTENSION_HOME=$PATH" >> /etc/environment
 
-echo "install Debian Extension success."
+echo "Install Debian Extension success."
 
 exit 0
