@@ -17,6 +17,13 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  fi
 done
 
+touch $HOME/.bash_aliases
+echo "
+alias bt=/usr/bin/bluetoothctl
+alias btc=\"bt connect\"
+alias btdc=\"bt disconnect\"
+" >> $HOME/.bash_aliases
+
 echo "Install bluetooth success."
 
 exit 0

@@ -25,6 +25,9 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  fi
 done
 
+touch $HOME/.bash_aliases
+echo "alias sx=\"/usr/bin/startx && exit\"" >> $HOME/.bash_aliases
+
 $DEBIAN_EXTENSION_HOME/common/install_package.sh rxvt-unicode
 if test $? -ne 0; then
  echo "Install terminal error!"; exit 41
