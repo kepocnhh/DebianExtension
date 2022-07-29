@@ -1,30 +1,22 @@
 #!/bin/bash
 
-echo "install xorg..."
+echo "Install xorg..."
 
-ERROR_CODE_EXTENSION_HOME=10
-ERROR_CODE_INSTALL=200
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_EXTENSION_HOME
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-ARRAY=(\
-"install_xserver-xorg-core.sh" \
-"install_xserver-xorg-input-all.sh" \
-"intel/install_xserver-xorg-video-intel.sh" \
-"intel/install_intel_config.sh")
-SIZE=${#ARRAY[@]}
-for ((i = 0; i < SIZE; i++)); do
+ARRAY=("core" "input-all" "video-intel")
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/xserver/xorg/$ITEM
+ $DEBIAN_EXTENSION_HOME/common/install_package.sh "xserver-xorg-${ITEM}"
  if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL + i))
+  echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
 
-echo "install xorg success."
+$DEBIAN_EXTENSION_HOME/xserver/xorg/intel/install_intel_config.sh || exit 31
+
+echo "Install xorg success."
 
 exit 0

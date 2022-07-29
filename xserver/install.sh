@@ -1,55 +1,40 @@
 #!/bin/bash
 
-echo "install xserver..."
+echo "Install xserver..."
 
-ERROR_CODE_SERVICE=10
-ERROR_CODE_INSTALL_REQUIRED=100
-ERROR_CODE_INSTALL_COMMON=200
-ERROR_CODE_INSTALL_TERMINAL=20
-ERROR_CODE_INSTALL_FONT=30
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-array=("session/install_libpam-systemd.sh")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
- ITEM="${array[$i]}"
- $DEBIAN_EXTENSION_HOME/$ITEM
- if test $? -ne 0; then
-  echo "Install required \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL_REQUIRED + i))
- fi
-done
+ITEM="libpam-systemd"
+$DEBIAN_EXTENSION_HOME/common/install_package.sh "$ITEM"
+if test $? -ne 0; then
+ echo "Install \"$ITEM\" error!"; exit 21
+fi
 
-array=(\
+ARRAY=(\
 "xserver/install_xinit.sh" \
 "xserver/install_x11-xserver-utils.sh" \
 "xserver/xorg/install.sh")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
- ITEM="${array[$i]}"
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
+ ITEM="${ARRAY[$i]}"
  $DEBIAN_EXTENSION_HOME/$ITEM
  if test $? -ne 0; then
   echo "Install common \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL_COMMON + i))
+  exit $((30 + i))
  fi
 done
 
-$DEBIAN_EXTENSION_HOME/xserver/terminal/rxvt-unicode/install_rxvt-unicode.sh
+$DEBIAN_EXTENSION_HOME/common/install_package.sh rxvt-unicode
 if test $? -ne 0; then
- echo "Install terminal error!"
- exit $ERROR_CODE_INSTALL_TERMINAL
+ echo "Install terminal error!"; exit 41
 fi
 
 $DEBIAN_EXTENSION_HOME/xserver/font/install_JetBrains_Mono.sh
 if test $? -ne 0; then
- echo "Install font error!"
- exit $ERROR_CODE_INSTALL_FONT
+ echo "Install font error!"; exit 42
 fi
 
-echo "install xserver success."
+echo "Install xserver success."
 
 exit 0

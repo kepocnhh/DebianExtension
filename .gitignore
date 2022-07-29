@@ -2,6 +2,7 @@
 !/common
 !/core
 !/download
+!/xserver
 !.gitignore
 !install.sh
 !LICENSE
