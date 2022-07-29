@@ -1,4 +1,3 @@
-
 set $mod Mod4
 
 font pango:JetBrains Mono NL 8
@@ -19,27 +18,18 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+# bindsym $mod+f fullscreen
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
 
-# toggle tiling / floating
-#bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+t floating toggle
+# bindsym $mod+t focus mode_toggle
 
-# change focus between tiling / floating windows
-#bindsym $mod+space focus mode_toggle
+# bindsym $mod+a focus parent
+# bindsym $mod+d focus child
 
-# focus the parent container
-#bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
-
-# switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -51,7 +41,6 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
-# move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
@@ -63,51 +52,24 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
-# reload the configuration file
-#bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-#bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
+# bindsym $mod+Shift+c reload
+# bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec i3-msg exit
-
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-
-#bindsym $mod+r mode "resize"
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+# todo XF86AudioMute
 
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
-#bindsym $mod+Shift+Ctrl+Right move container to workspace next; workspace next
 
 default_border normal 0
 default_floating_border normal 1
 
+set $color_inactive #222222
+set $color_urgent #43a047
 set $color_bg #000000
 set $color_fg #1976d2
 set $color_tx #ffffff
@@ -115,7 +77,9 @@ set $color_tx #ffffff
 bindsym $mod+space exec dmenu_run -nb '$color_bg' -sf '$color_tx' -sb '$color_fg' -nf '$color_tx'
 
 client.focused $color_bg $color_fg $color_tx $color_bg $color_bg
-client.unfocused $color_bg $color_bg $color_tx $color_bg $color_bg
+client.focused_inactive $color_bg $color_inactive $color_tx $color_bg $color_bg
+client.unfocused $color_bg $color_inactive $color_tx $color_bg $color_bg
+client.urgent $color_bg $color_urgent $color_tx $color_bg $color_bg
 
 bar {
  status_command $HOME/.local/bin/status_command.sh
@@ -127,6 +91,7 @@ bar {
   background $color_bg
   focused_workspace $color_bg $color_fg $color_tx
   inactive_workspace $color_bg $color_bg $color_tx
+  urgent_workspace $color_bg $color_urgent $color_tx
  }
 }
 

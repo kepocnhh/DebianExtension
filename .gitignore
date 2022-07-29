@@ -1,7 +1,9 @@
-*
+/*
 !/common
 !/core
+!/debian
 !/download
+!/periphery
 !/xserver
 !.gitignore
 !install.sh

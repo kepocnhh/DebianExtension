@@ -1,40 +1,28 @@
 #!/bin/bash
 
-echo "install wm..."
+echo "Install wm..."
 
-ERROR_CODE_SERVICE=10
-ERROR_CODE_INSTALL_DMENU=20
-ERROR_CODE_INSTALL_XRESOURCES=30
-ERROR_CODE_INSTALL_I3=100
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-$DEBIAN_EXTENSION_HOME/xserver/wm/install_dmenu.sh
+$DEBIAN_EXTENSION_HOME/common/install_package.sh dmenu
 if test $? -ne 0; then
- echo "Install dmenu error!"
- exit $ERROR_CODE_INSTALL_DMENU
+ echo "Install dmenu error!"; exit 21
 fi
 
 $DEBIAN_EXTENSION_HOME/xserver/wm/install_xresources.sh
 if test $? -ne 0; then
- echo "Install xresources error!"
- exit $ERROR_CODE_INSTALL_XRESOURCES
+ echo "Install xresources error!"; exit 22
 fi
 
-array=("i3" "i3_config" "i3lock")
-SIZE=${#array[@]}
-for ((i = 0; i < SIZE; i++)); do
- ITEM="${array[$i]}"
- $DEBIAN_EXTENSION_HOME/xserver/wm/i3/install_${ITEM}.sh
- if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"
-  exit $((ERROR_CODE_INSTALL_I3 + i))
- fi
-done
+$DEBIAN_EXTENSION_HOME/common/install_package.sh i3 \
+ && $DEBIAN_EXTENSION_HOME/common/install_package.sh i3lock \
+ && $DEBIAN_EXTENSION_HOME/xserver/wm/i3/install_i3_config.sh
+if test $? -ne 0; then
+ echo "Install i3 error!"; exit 31
+fi
 
-echo "install wm success."
+echo "Install wm success."
 
 exit 0

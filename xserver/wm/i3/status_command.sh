@@ -1,10 +1,7 @@
 #!/bin/bash
 
-ERROR_CODE_SERVICE=1
-
-if test -z $DEBIAN_EXTENSION_HOME; then
-    echo "Debian extension home path must be not empty!"
-    exit $ERROR_CODE_SERVICE
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
 COLOR_GREEN='#66BB6A'
