@@ -19,7 +19,7 @@ $DEBIAN_EXTENSION_HOME/xserver/xorg/install.sh || exit 31
 $DEBIAN_EXTENSION_HOME/common/install_package.sh rxvt-unicode || exit 41
 $DEBIAN_EXTENSION_HOME/xserver/font/install_JetBrains_Mono.sh || exit 42
 
-$DEBIAN_EXTENSION_HOME/xserver/wm/instal.sh || exit 31
+$DEBIAN_EXTENSION_HOME/xserver/wm/install.sh || exit 31
 
 echo "Install xserver success."
 
