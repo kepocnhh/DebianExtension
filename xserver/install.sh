@@ -6,37 +6,18 @@ if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
  echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 fi
 
-ITEM="libpam-systemd"
-$DEBIAN_EXTENSION_HOME/common/install_package.sh "$ITEM"
-if test $? -ne 0; then
- echo "Install \"$ITEM\" error!"; exit 21
-fi
-
-ARRAY=(\
-"xserver/install_xinit.sh" \
-"xserver/install_x11-xserver-utils.sh" \
-"xserver/xorg/install.sh")
-for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/$ITEM
- if test $? -ne 0; then
-  echo "Install common \"$ITEM\" error!"
-  exit $((30 + i))
- fi
-done
+$DEBIAN_EXTENSION_HOME/common/install_package.sh libpam-systemd || exit 21
+$DEBIAN_EXTENSION_HOME/common/install_package.sh xinit || exit 22
+$DEBIAN_EXTENSION_HOME/common/install_package.sh x11-xsxerver-utils || exit 23
+$DEBIAN_EXTENSION_HOME/common/install_package.sh dbus-x11 || exit 24
 
 touch $HOME/.bash_aliases
 echo "alias sx=\"/usr/bin/startx && exit\"" >> $HOME/.bash_aliases
 
-$DEBIAN_EXTENSION_HOME/common/install_package.sh rxvt-unicode
-if test $? -ne 0; then
- echo "Install terminal error!"; exit 41
-fi
+$DEBIAN_EXTENSION_HOME/xserver/xorg/instal.sh || exit 31
 
-$DEBIAN_EXTENSION_HOME/xserver/font/install_JetBrains_Mono.sh
-if test $? -ne 0; then
- echo "Install font error!"; exit 42
-fi
+$DEBIAN_EXTENSION_HOME/common/install_package.sh rxvt-unicode || exit 41
+$DEBIAN_EXTENSION_HOME/xserver/font/install_JetBrains_Mono.sh || exit 42
 
 echo "Install xserver success."
 
