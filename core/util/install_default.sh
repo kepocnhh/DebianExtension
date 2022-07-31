@@ -9,7 +9,7 @@ fi
 DEFAULT_PATH="/etc/default"
 ARRAY=("console-setup" "keyboard")
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- FILE_NAME="${array[$i]}"
+ FILE_NAME="${ARRAY[$i]}"
  RESULT_PATH="$DEFAULT_PATH/$FILE_NAME"
  rm "$RESULT_PATH"
  cp "$DEBIAN_EXTENSION_HOME/debian$RESULT_PATH" "$RESULT_PATH"
