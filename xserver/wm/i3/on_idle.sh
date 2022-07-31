@@ -17,11 +17,11 @@ for it in TIME_SCREEN_OFF TIME_SCREEN_LOCK TIME_SUSPEND; do
 
 LOG_PATH="/tmp/on_idle.log"
 
-if test "$TIME_SCREEN_OFF" =~ \D; then
+if [[ ! "$TIME_SCREEN_OFF" =~ ^[1-9][0-9]*$ ]]; then
  echo "Time screen off number error!" >> $LOG_PATH; exit 14
-elif test "$TIME_SCREEN_LOCK" =~ \D; then
+elif [[ ! "$TIME_SCREEN_LOCK" =~ ^[1-9][0-9]*$ ]]; then
  echo "Time screen lock number error!" >> $LOG_PATH; exit 15
-elif test "$TIME_SUSPEND" =~ \D; then
+elif [[ ! "$TIME_SUSPEND" =~ ^[1-9][0-9]*$ ]]; then
  echo "Time suspend number error!" >> $LOG_PATH; exit 16
 fi
 
