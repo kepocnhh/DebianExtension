@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if test -d "/opt/mozilla/firefox-${FIREFOX_VERSION}"; then
- echo "Firefox ${FIREFOX_VERSION} exists!"; exit 101
-fi
-
 if test $# -ne 3; then
   echo "Script needs for 3 arguments but actual $#!"; exit 12
 fi
@@ -15,6 +11,9 @@ LANGUAGE=$3 # en-US
 for it in FIREFOX_VERSION DISTRIBUTION LANGUAGE; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
 
+if test -d "/opt/mozilla/firefox-${FIREFOX_VERSION}"; then
+ echo "Firefox ${FIREFOX_VERSION} exists!"; exit 101
+fi
 
 URL="https://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/$DISTRIBUTION/$LANGUAGE"
 
