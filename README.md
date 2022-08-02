@@ -4,7 +4,7 @@ A few Debian extensions
 ```
 $ sudo -E core/install.sh
 $ sudo -E xserver/install.sh
-$ sudo chown -R $USER $HOME
+$ sudo chown -R $USER:$USER $HOME
 ```
 
 xserver on idle suspend
