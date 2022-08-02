@@ -14,5 +14,6 @@ $ echo "$USER $HOSTNAME=NOPASSWD:/usr/bin/systemctl suspend" | sudo tee -a /etc/
 
 auto mount on
 ```
+$ sudo mkdir /etc/environment.d
 $ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
 ```
