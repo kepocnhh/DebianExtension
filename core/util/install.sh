@@ -8,7 +8,7 @@ fi
 
 ARRAY=(curl openssl "exfat-fuse" unzip lbzip2 xz-utils gpg "gpg-agent" jq)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}"; exit $((30 + i))
+ $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}" || exit $((30 + i))
 done
 
 ARRAY=(default "usb_mount_service" git ntp)
