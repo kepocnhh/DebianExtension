@@ -53,4 +53,7 @@ if test $? -ne 0; then
  echo "Running firefox error!"; exit 34
 fi
 
+# todo signature
+# todo shortcut
+
 exit 0

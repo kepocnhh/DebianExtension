@@ -19,6 +19,11 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  echo "Copy \"$RESULT_PATH\" file success."
 done
 
+udevadm trigger --subsystem-match=input --action=change
+if test $? -ne 0; then
+ echo "Restart keyboard error!"; exit 31
+fi
+
 echo "Install default success."
 
 exit 0
