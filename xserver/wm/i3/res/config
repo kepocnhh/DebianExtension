@@ -99,7 +99,7 @@ bindsym $mod+l exec i3lock --color='$color_bg'
 
 exec --no-startup-id /usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
 exec --no-startup-id /usr/bin/xrandr -r 144
-exec --no-startup-id /usr/bin/pulseaudio -k; /usr/bin/pulseaudio --start && /usr/bin/pulseaudio -k && /usr/bin/pulseaudio --start
+exec --no-startup-id /usr/bin/pulseaudio --check || /usr/bin/pulseaudio --start
 
 # 1000*60*10 = 600000
 # 1000*60*5  = 300000
