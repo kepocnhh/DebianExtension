@@ -11,7 +11,7 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}"; exit $((30 + i))
 done
 
-ARRAY=(default "usb_mount_service" git)
+ARRAY=(default "usb_mount_service" git ntp)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  ITEM="${ARRAY[$i]}"
  $DEBIAN_EXTENSION_HOME/core/util/install_${ITEM}.sh
@@ -19,6 +19,9 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
   echo "Install \"$ITEM\" error!"; exit $((20 + i))
  fi
 done
+
+/usr/bin/timedatectl set-timezone 'Europe/Moscow'
+ntpq -p
 
 echo "Install util success."
 
