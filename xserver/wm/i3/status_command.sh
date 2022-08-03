@@ -8,7 +8,7 @@ COLOR_GRAY='#888888'
 COLOR_GREEN='#43a047'
 COLOR_BLUE='#1976d2'
 COLOR_WHITE='#ffffff'
-echo '{"version":1},"click_events":true'
+echo '{"version":1,"click_events":true}'
 echo '['
 echo '[]'
 
