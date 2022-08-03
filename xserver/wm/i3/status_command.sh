@@ -18,7 +18,11 @@ echo '[]'
 
  STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER") \
   && case "$STATUS" in
-  yes);;
+  yes) STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS") \
+   && case "$STATUS" in
+   yes);;
+   no) RESULT="{\"name\":\"speakers_off\",\"full_text\":\"S\",\"color\":\"$COLOR_GRAY\"},$RESULT";;
+  esac;;
   no) RESULT="{\"name\":\"bt_off\",\"full_text\":\"B\",\"color\":\"$COLOR_GRAY\"},$RESULT";;
  esac
 
@@ -35,6 +39,9 @@ while read it; do
  case "$(echo $it | jq -r .name)" in
   bt_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")" == no; then
    /usr/bin/bluetoothctl power on > /dev/null &
+  fi;;
+  speakers_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == no; then
+   /usr/bin/bluetoothctl connected $BT_MAC_SPEAKERS > /tmp/bt_connect.log &
   fi;;
  esac
 done
