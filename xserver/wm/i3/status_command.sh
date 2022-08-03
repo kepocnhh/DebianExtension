@@ -41,7 +41,7 @@ while read it; do
    /usr/bin/bluetoothctl power on > /dev/null &
   fi;;
   speakers_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == no; then
-   /usr/bin/bluetoothctl connected $BT_MAC_SPEAKERS > /tmp/bt_connect.log &
+   /usr/bin/bluetoothctl connect $BT_MAC_SPEAKERS > /tmp/bt_connect.log &
   fi;;
  esac
 done
