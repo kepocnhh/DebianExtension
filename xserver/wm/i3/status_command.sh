@@ -34,6 +34,16 @@ echo '[]'
   RESULT="{\"full_text\":\"B\",\"color\":\"$COLOR_RED\"},$RESULT"
  fi
 
+ CODE=0
+ STATUS=$($DEBIAN_EXTENSION_HOME/core/network/wireless/is_up.sh "$NI_WIRELESS")
+ if [ $CODE -eq 0 ] && [ "$STATUS" == up ]; then
+  RESULT="{\"full_text\":\"W\",\"color\":\"$COLOR_WHITE\"},$RESULT"
+ elif [ $CODE -eq 0 ] && [ "$STATUS" == down ]; then
+  RESULT="{\"full_text\":\"W\",\"color\":\"$COLOR_GRAY\"},$RESULT"
+ else
+  RESULT="{\"full_text\":\"W\",\"color\":\"$COLOR_RED\"},$RESULT"
+ fi
+
 # SSID=$($DEBIAN_EXTENSION_HOME/core/network/wireless/get_wireless_ssid.sh $WF_NI_MAIN)
 # [ $? -eq 0 ] && RESULT="{\"full_text\":\"$WF_NI_MAIN/$SSID\",\"color\":\"$COLOR_GREEN\"},$RESULT"
 
