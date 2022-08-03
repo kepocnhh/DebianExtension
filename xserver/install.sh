@@ -3,7 +3,7 @@
 echo "Install xserver..."
 
 for it in HOME DEBIAN_EXTENSION_HOME; do
- if test -d "${!it}"; then echo "Dir $it does not exist!"; exit 11; fi; done
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
 ARRAY=("libpam-systemd" xinit "x11-xserver-utils" "x11-utils" "dbus-x11")
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do

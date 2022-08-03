@@ -3,7 +3,7 @@
 echo "Install media..."
 
 for it in HOME DEBIAN_EXTENSION_HOME; do
- if test -d "${!it}"; then echo "Dir $it does not exist!"; exit 11; fi; done
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
 ARRAY=("alsa-utils" pulseaudio playerctl)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
