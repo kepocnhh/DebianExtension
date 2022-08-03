@@ -17,6 +17,8 @@ echo '[]'
  TIME=$(date +"%Y/%m/%d %H:%M:%S")
  RESULT="{\"full_text\":\"$TIME\"}"
 
+ /usr/bin/pulseaudio --check || RESULT="{\"name\":\"pulse_off\",\"full_text\":\"P\",\"color\":\"$COLOR_RED\"},$RESULT"
+
  CODE=0
  STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")
  if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
@@ -55,6 +57,9 @@ done) &
 
 while read it; do
  case "$(echo $it | jq -r .name)" in
+  pulse_off) /usr/bin/pulseaudio --check; if test $? -ne 0; then
+   /usr/bin/pulseaudio --start &
+  fi;;
   bt_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")" == no; then
    /usr/bin/bluetoothctl power on > /dev/null &
   fi;;
