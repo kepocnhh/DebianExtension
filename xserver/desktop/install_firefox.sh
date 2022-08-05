@@ -17,24 +17,40 @@ fi
 
 sudo apt-get install --no-install-recommends -y libgtk-3-0 libdbus-glib-1-2
 if test $? -ne 0; then
- echo "Insall lib error!"; exit 21
+ echo "Install lib error!"; exit 21
 fi
 
-URL="https://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION/$DISTRIBUTION/$LANGUAGE"
+BASE_URL="https://ftp.mozilla.org/pub/firefox/releases/$FIREFOX_VERSION"
+
+echo "Download firefox key..."
+FILE="firefox-pub.gpg"
+rm /tmp/${FILE}
+curl -f "$BASE_URL/KEY" -o /tmp/$FILE && gpg --import /tmp/${FILE} || exit 31
+rm /tmp/${FILE}
 
 echo "Download firefox ${FIREFOX_VERSION}..."
 FILE="firefox-${FIREFOX_VERSION}.tar.bz2"
 rm /tmp/${FILE}
-curl -f "$URL/$FILE" -o /tmp/$FILE
+curl -f "$BASE_URL/$DISTRIBUTION/$LANGUAGE/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download firefox error!"; exit 31
+ echo "Download firefox error!"; exit 32
 fi
+
+echo "Download firefox ${FIREFOX_VERSION} signature..."
+rm /tmp/${FILE}.asc
+curl -f "$BASE_URL/$DISTRIBUTION/$LANGUAGE/${FILE}.asc" -o /tmp/${FILE}.asc
+if test $? -ne 0; then
+ echo "Download firefox signature error!"; exit 33
+fi
+
+gpg --verify /tmp/${FILE}.asc /tmp/$FILE || exit 34
+rm /tmp/${FILE}.asc
 
 echo "Unzip firefox ${FIREFOX_VERSION}..."
 rm -rf /tmp/firefox
 tar -xf /tmp/${FILE} -C /tmp
 if test $? -ne 0; then
- echo "Unzip firefox error!"; exit 32
+ echo "Unzip firefox error!"; exit 41
 fi
 
 echo "Install firefox ${FIREFOX_VERSION}..."
@@ -43,17 +59,14 @@ if [ ! -d "/opt/mozilla" ]; then
 fi
 sudo mv /tmp/firefox "/opt/mozilla/firefox-${FIREFOX_VERSION}"
 if test $? -ne 0; then
- echo "Install firefox error!"; exit 33
+ echo "Install firefox error!"; exit 42
 fi
 
 rm /tmp/${FILE}
 echo "Running firefox ${FIREFOX_VERSION}..."
 /opt/mozilla/firefox-${FIREFOX_VERSION}/firefox --version
 if test $? -ne 0; then
- echo "Running firefox error!"; exit 34
+ echo "Running firefox error!"; exit 43
 fi
-
-# todo signature
-# todo shortcut
 
 exit 0
