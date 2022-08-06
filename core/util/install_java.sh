@@ -40,7 +40,6 @@ echo "$(cat /tmp/${FILE}.sha256) /tmp/${FILE}" | sha256sum -c || exit 23
 rm /tmp/${FILE}.sha256
 
 echo "Unzip java ${JAVA_VERSION}..."
-rm -rf /tmp/jdk-${JAVA_VERSION}
 tar -xf /tmp/${FILE} -C /opt
 if test $? -ne 0; then
  echo "Unzip java error!"; exit 31
