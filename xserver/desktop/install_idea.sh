@@ -47,12 +47,6 @@ mv /tmp/idea-IC-* "/opt/jetbrains/idea-${IDEA_VERSION}"
 if test $? -ne 0; then
  echo "Install idea error!"; exit 32
 fi
-
 rm /tmp/${FILE}
-echo "Running idea ${IDEA_VERSION}..."
-/opt/jetbrains/idea-${IDEA_VERSION}/bin/idea.sh --version
-if test $? -ne 0; then
- echo "Running idea error!"; exit 33
-fi
 
 exit 0
