@@ -17,6 +17,11 @@ if test -d "/opt/google/android-studio-${ANDROID_STUDIO_VERSION}"; then
  echo "Android studio ${ANDROID_STUDIO_VERSION} exists!"; exit 23
 fi
 
+apt-get install --no-install-recommends -y libnss3 # emulator
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 24
+fi
+
 case "$ANDROID_STUDIO_VERSION" in
  '2021.2.1.16') SHA_256='aa5773a9e1da25bdb2367a8bdd2b623dbe0345170ed231a15b3f40e8888447dc';;
  *) echo "Android studio version $ANDROID_STUDIO_VERSION is not supported!"; exit 31;;
