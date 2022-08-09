@@ -12,7 +12,7 @@ for it in TELEGRAM_VERSION; do
 for it in HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 22; fi; done
 
-if test -s "$HOME/.local/bin/Telegram"; then
+if test -s $HOME/.local/bin/Telegram; then
  echo "Telegram exists!"; exit 23
 fi
 
@@ -30,11 +30,14 @@ echo "Unzip telegram ${TELEGRAM_VERSION}..."
 rm -rf /tmp/android-studio
 tar -xf /tmp/$FILE -C /tmp
 if test $? -ne 0; then
- echo "Unzip telegram $TELEGRAM_VERSION error!"; exit 42
+ echo "Unzip telegram $TELEGRAM_VERSION error!"; exit 41
 fi
 
 echo "Install telegram ${TELEGRAM_VERSION}..."
-mv /tmp/Telegram/Telegram "$HOME/.local/bin/"
+if [ ! -d $HOME/.local/bin ]; then
+ mkdir -p $HOME/.local/bin || exit 42
+fi
+mv /tmp/Telegram/Telegram $HOME/.local/bin/Telegram
 if test $? -ne 0; then
  echo "Install telegram $TELEGRAM_VERSION error!"; exit 43
 fi
