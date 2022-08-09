@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if test $# -ne 1; then
-  echo "Script needs for 1 arguments but actual $#!"; exit 11
+if test $# -ne 2; then
+  echo "Script needs for 2 arguments but actual $#!"; exit 11
 fi
 
 ANDROID_STUDIO_VERSION=$1
