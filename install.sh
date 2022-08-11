@@ -19,7 +19,7 @@ if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
  echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
 fi
 
-apt-get install --no-install-recommends -y curl
+apt-get install --no-install-recommends -y curl ca-certificates
 if test $? -ne 0; then
  echo "Install lib error!"; exit 14
 fi
