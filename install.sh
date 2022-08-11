@@ -1,38 +1,47 @@
 #!/bin/bash
 
+if test $# -ne 2; then
+  echo "Script needs for 2 arguments but actual $#!"; exit 11
+fi
+
+OPTION=$1
+DEBIAN_EXTENSION_VERSION=$2
+
+for it in OPTION DEBIAN_EXTENSION_VERSION; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
+
 REPOSITORY_OWNER="kepocnhh"
 REPOSITORY_NAME="DebianExtension"
 
-echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME}..."
-
-if test $# -ne 1; then
-  echo "Script needs for 1 arguments but actual $#!"; exit 21
+if test -d "/opt/${REPOSITORY_NAME}-${DEBIAN_EXTENSION_VERSION}"; then
+ echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
 fi
 
-VERSION=$1
+echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME} ${DEBIAN_EXTENSION_VERSION}..."
 
-for it in VERSION; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 22; fi; done
+BASE_URL="https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}/archive/refs"
 
-/usr/bin/apt-get install --no-install-recommends -y git ca-certificates
+case "$OPTION" in
+ '-t' | '--tag') BASE_URL="$BASE_URL/tags";;
+ '-b' | '--branch') BASE_URL="$BASE_URL/heads";;
+ *) echo "Option \"$OPTION\" is not supported!"; exit 21;;
+esac
+
+echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
+FILE="${DEBIAN_EXTENSION_VERSION}.zip"
+rm /tmp/$FILE
+curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Install required error!"; exit 11
+ echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31
 fi
 
-FILE_PATH="/usr/local/bin/DebianExtension"
-rm -rf $FILE_PATH
-mkdir -p $FILE_PATH
-
-git -C $FILE_PATH init \
- && git -C $FILE_PATH remote add origin https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git \
- && git -C $FILE_PATH fetch --depth=1 origin $VERSION \
- && git -C $FILE_PATH checkout FETCH_HEAD
+echo "Unzip $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
+unzip -d /opt /tmp/$FILE
 if test $? -ne 0; then
- echo "Clone error!"; exit 13
+ echo "Unzip $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 32
 fi
+rm /tmp/$FILE
 
-echo "DEBIAN_EXTENSION_HOME=$FILE_PATH" >> /etc/environment
-
-echo "Install Debian Extension success."
+echo "Install $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION success."
 
 exit 0
