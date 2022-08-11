@@ -19,6 +19,11 @@ if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
  echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
 fi
 
+apt-get install --no-install-recommends -y curl
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 14
+fi
+
 echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME} ${DEBIAN_EXTENSION_VERSION}..."
 
 BASE_URL="https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}/archive/refs"
