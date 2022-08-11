@@ -14,6 +14,11 @@ if test -d "/opt/docker-$DOCKER_VERSION"; then
  echo "Docker $DOCKER_VERSION exists!"; exit 22
 fi
 
+apt-get install --no-install-recommends -y uidmap iptables
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 23
+fi
+
 BASE_URL=https://download.docker.com/linux/static/stable/$ARCHITECTURE
 
 echo "Download docker ${DOCKER_VERSION}..."
