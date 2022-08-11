@@ -10,10 +10,12 @@ DEBIAN_EXTENSION_VERSION=$2
 for it in OPTION DEBIAN_EXTENSION_VERSION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
+ENCODED=${DEBIAN_EXTENSION_VERSION////-}
+
 REPOSITORY_OWNER="kepocnhh"
 REPOSITORY_NAME="DebianExtension"
 
-if test -d "/opt/${REPOSITORY_NAME}-${DEBIAN_EXTENSION_VERSION}"; then
+if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
  echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
 fi
 
@@ -28,9 +30,9 @@ case "$OPTION" in
 esac
 
 echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
-FILE="${DEBIAN_EXTENSION_VERSION}.zip"
+FILE="${REPOSITORY_NAME}-${ENCODED}.zip"
 rm /tmp/$FILE
-curl -f -L "$BASE_URL/$FILE" -o /tmp/$FILE
+curl -f -L "$BASE_URL/${DEBIAN_EXTENSION_VERSION}.zip" -o /tmp/$FILE
 if test $? -ne 0; then
  echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31
 fi
