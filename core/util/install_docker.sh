@@ -19,6 +19,8 @@ if test $? -ne 0; then
  echo "Install lib error!"; exit 23
 fi
 
+# https://docs.docker.com/engine/security/rootless/
+
 BASE_URL=https://download.docker.com/linux/static/stable/$ARCHITECTURE
 
 echo "Download docker ${DOCKER_VERSION}..."
@@ -69,5 +71,12 @@ echo "Running docker ${DOCKER_VERSION}..."
 if test $? -ne 0; then
  echo "Running docker $DOCKER_VERSION error!"; exit 51
 fi
+
+echo "
+1. logout
+2. /opt/docker-${DOCKER_VERSION}/dockerd-rootless-setuptool.sh check
+3. /opt/docker-${DOCKER_VERSION}/dockerd-rootless-setuptool.sh install
+4. export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock
+"
 
 exit 0
