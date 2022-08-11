@@ -30,7 +30,7 @@ esac
 echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
 FILE="${DEBIAN_EXTENSION_VERSION}.zip"
 rm /tmp/$FILE
-curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
+curl -f -L "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
  echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31
 fi
