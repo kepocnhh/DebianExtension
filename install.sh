@@ -49,6 +49,8 @@ if test $? -ne 0; then
 fi
 rm /tmp/$FILE
 
+cat /opt/${REPOSITORY_NAME}-${ENCODED}/README.md
+
 echo "Install $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION success."
 
 exit 0
