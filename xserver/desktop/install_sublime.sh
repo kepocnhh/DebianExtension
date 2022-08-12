@@ -53,7 +53,7 @@ if test $? -ne 0; then
 fi
 
 echo "Install sublime ${SUBLIME_VERSION}..."
-sudo mv /tmp/sublime_text "/opt/sublime-$SUBLIME_VERSION"
+mv /tmp/sublime_text "/opt/sublime-$SUBLIME_VERSION"
 if test $? -ne 0; then
  echo "Install sublime error!"; exit 42
 fi
