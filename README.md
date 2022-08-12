@@ -27,3 +27,8 @@ $ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_u
 ```
 $ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> .bash_aliases
 ```
+
+monitor
+```
+$ echo "exec --no-startup-id /usr/bin/xrandr -s 2560x1440 -r 144"
+```
