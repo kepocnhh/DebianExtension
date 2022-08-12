@@ -4,6 +4,9 @@ if test $# -ne 1; then
   echo "Script needs for 1 arguments but actual $#!"; exit 11
 fi
 
+for it in DEBIAN_EXTENSION_HOME HOME; do
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 12; fi; done
+
 SUBLIME_VERSION=$1
 DISTRIBUTION='x64'
 
@@ -49,16 +52,23 @@ echo "Unzip sublime ${SUBLIME_VERSION}..."
 rm -rf /tmp/sublime_text
 tar -xf /tmp/$FILE -C /tmp
 if test $? -ne 0; then
- echo "Unzip sublime error!"; exit 41
+ echo "Unzip sublime $SUBLIME_VERSION error!"; exit 41
 fi
+rm /tmp/$FILE
 
 echo "Install sublime ${SUBLIME_VERSION}..."
 mv /tmp/sublime_text "/opt/sublime-$SUBLIME_VERSION"
 if test $? -ne 0; then
- echo "Install sublime error!"; exit 42
+ echo "Install sublime $SUBLIME_VERSION error!"; exit 42
 fi
 
-rm /tmp/$FILE
-/opt/sublime-${SUBLIME_VERSION}/sublime_text --version || exit 43
+RESULT_PATH=$HOME/.config/sublime-text/Packages/User/
+mkdir -p $RESULT_PATH
+cp $DEBIAN_EXTENSION_HOME/xserver/desktop/config/sublime/* $RESULT_PATH
+if test $? -ne 0; then
+ echo "Install sublime config error!"; exit 42
+fi
+
+/opt/sublime-${SUBLIME_VERSION}/sublime_text --version || exit 44
 
 exit 0
