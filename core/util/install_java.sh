@@ -10,7 +10,7 @@ DISTRIBUTION='linux-x64'
 for it in JAVA_VERSION DISTRIBUTION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
-if test -d "/opt/jdk-${JAVA_VERSION}"; then
+if test -d "/opt/jdk-$JAVA_VERSION"; then
  echo "Java ${JAVA_VERSION} exists!"; exit 13
 fi
 
