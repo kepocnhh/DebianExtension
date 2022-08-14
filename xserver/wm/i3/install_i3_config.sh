@@ -30,6 +30,13 @@ elif [ ! -s $I3_PATH/on_idle_command.sh ]; then
  echo "On idle command does not exist!"; exit 32
 fi
 
+# 1000*60*10 = 600000
+# 1000*60*5  = 300000
+echo "
+/usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
+\$DEBIAN_EXTENSION_HOME/xserver/wm/i3/on_idle_command.sh 600000 300000 300000 &
+" >> $HOME/.xsessionrc
+
 echo "Install i3 config success."
 
 exit 0

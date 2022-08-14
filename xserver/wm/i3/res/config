@@ -96,9 +96,3 @@ bar {
 }
 
 bindsym $mod+l exec i3lock --color='$color_bg'
-
-exec --no-startup-id /usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
-
-# 1000*60*10 = 600000
-# 1000*60*5  = 300000
-exec --no-startup-id $DEBIAN_EXTENSION_HOME/xserver/wm/i3/on_idle_command.sh 600000 300000 300000
