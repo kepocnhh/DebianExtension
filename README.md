@@ -20,12 +20,12 @@ $ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
 
 wireless aliases
 ```
-$ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.bash_aliases
+$ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
 ```
 
 `apt-get` install no recommends
 ```
-$ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> $HOME/.bash_aliases
+$ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> $HOME/.local/aliases
 ```
 
 monitor

@@ -10,7 +10,8 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}" || exit $((20 + i))
 done
 
-echo "alias sx=\"/usr/bin/startx; exit\"" >> $HOME/.bash_aliases
+mkdir $HOME/.local
+echo "alias sx=\"/usr/bin/startx; exit\"" >> $HOME/.local/aliases
 
 $DEBIAN_EXTENSION_HOME/xserver/xorg/install.sh || exit 31
 
