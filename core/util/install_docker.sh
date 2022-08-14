@@ -14,7 +14,7 @@ if test -d "/opt/docker-$DOCKER_VERSION"; then
  echo "Docker $DOCKER_VERSION exists!"; exit 22
 fi
 
-apt-get install --no-install-recommends -y uidmap iptables
+apt-get install --no-install-recommends -y uidmap iptables dbus-user-session
 if test $? -ne 0; then
  echo "Install lib error!"; exit 23
 fi
