@@ -5,6 +5,8 @@ A few Debian extensions
 $ sudo -E core/install.sh
 $ sudo -E xserver/install.sh
 $ sudo chown -R $USER:$USER $HOME
+$ echo ". \$HOME/.local/aliases" >> $HOME/.bashrc
+$ echo ". \$HOME/.local/environment" >> $HOME/.bashrc
 ```
 
 xserver on idle suspend
@@ -18,12 +20,12 @@ $ sudo mkdir /etc/environment.d
 $ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
 ```
 
-wireless aliases
+wireless alias
 ```
 $ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
 ```
 
-`apt-get` install no recommends
+`apt-get` no install recommends alias
 ```
 $ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> $HOME/.local/aliases
 ```
