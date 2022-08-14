@@ -30,5 +30,5 @@ $ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> $HOME/.lo
 
 monitor
 ```
-$ echo "exec --no-startup-id /usr/bin/xrandr -s 2560x1440 -r 144" >> $HOME/.config/i3/config
+$ echo "/usr/bin/xrandr -s 2560x1440 -r 144" >> $HOME/.xsessionrc
 ```
