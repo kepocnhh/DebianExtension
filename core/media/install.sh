@@ -12,6 +12,7 @@ done
 
 mkdir -p $HOME/.config/systemd/user
 ln -s /dev/null $HOME/.config/systemd/user/pulseaudio.socket
+echo "/usr/bin/pulseaudio --check || /usr/bin/pulseaudio --start" >> $HOME/.xsessionrc
 
 aplay --version
 pulseaudio --version
