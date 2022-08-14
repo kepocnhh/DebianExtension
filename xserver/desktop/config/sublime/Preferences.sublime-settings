@@ -2,5 +2,8 @@
  "word_wrap": false,
  "theme": "Default Dark.sublime-theme",
  "color_scheme": "Mariana.sublime-color-scheme",
- "remember_workspace": false
+ "remember_workspace": false,
+ "close_windows_when_empty": false,
+ "hot_exit": false,
+ "remember_open_files": false
 }
