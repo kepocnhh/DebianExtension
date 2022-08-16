@@ -44,3 +44,8 @@ Xft.lcdfilter: lcddefault
 
 URxvt.scrollBar: false
 URxvt.font: xft:JetBrains Mono NL:style=Regular:size=10
+
+URxvt.keysym.C-A-c: builtin-string:
+URxvt.keysym.C-A-v: builtin-string:
+URxvt.keysym.A-c: eval:selection_to_clipboard
+URxvt.keysym.C-v: eval:paste_clipboard
