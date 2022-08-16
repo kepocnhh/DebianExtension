@@ -10,18 +10,20 @@ SSID=$2
 for it in NI_NAME SSID; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
+if test -s "/etc/wpa_supplicant.${SSID}.conf"; then
+  echo "WPA supplicant conf for ssid \"$SSID\" does not exist!"; exit 13
+fi
+
 NI_STATE_UP=0x1003
 NI_STATE_DOWN=0x1002
 NI_STATE=$(cat /sys/class/net/$NI_NAME/flags)
 
 case "$NI_STATE" in
- "$NI_STATE_UP")
-  echo "Network interface state already up..."
- ;;
+ "$NI_STATE_UP") echo "Network interface state already up...";;
  "$NI_STATE_DOWN")
   /usr/bin/ip link set $NI_NAME up
   if test $? -ne 0; then
-   echo "Network interface up error!"; exit 21
+   echo "Network interface \"$NI_NAME\" up error!"; exit 21
   fi
  ;;
  *)
