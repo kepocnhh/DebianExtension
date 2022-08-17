@@ -1,8 +1,7 @@
 #!/bin/bash
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
-fi
+for it in DEBIAN_EXTENSION_HOME; do
+ if [ ! -d "${!it}" ]; then echo "Dir ${!it}($it) does not exist!"; exit 11; fi; done
 
 MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 

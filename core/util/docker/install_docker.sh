@@ -22,7 +22,7 @@ BASE_URL=https://download.docker.com/linux/$ID/dists/$VERSION_CODENAME/pool/stab
 echo "Download docker ${DOCKER_VERSION}..."
 FILE="docker-ce-cli_${DOCKER_VERSION}~3-0~${ID}-${VERSION_CODENAME}_${ARCHITECTURE}.deb"
 rm /tmp/$FILE
-curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
+curl -f --connect-timeout 2 "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
  echo "Download docker $DOCKER_VERSION error!"; exit 21
 fi
