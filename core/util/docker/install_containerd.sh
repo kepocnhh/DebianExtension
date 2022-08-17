@@ -9,7 +9,7 @@ MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 
 . /etc/os-release
 
-for it in MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
+for it in CONTAINERD_VERSION MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
 case "$MACHINE_HARDWARE_NAME" in
@@ -38,4 +38,7 @@ if test $? -ne 0; then
 fi
 rm /tmp/$FILE
 
-containerd --version || exit 31
+containerd --version
+if test $? -ne 0; then
+ echo "Running containerd $CONTAINERD_VERSION error!"; exit 31
+fi

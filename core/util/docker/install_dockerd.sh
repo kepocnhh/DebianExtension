@@ -4,12 +4,12 @@ if test $# -ne 1; then
   echo "Script needs for 1 arguments but actual $#!"; exit 11
 fi
 
-DOCKER_VERSION=$1
+DOCKERD_VERSION=$1
 MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 
 . /etc/os-release
 
-for it in DOCKER_VERSION MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
+for it in DOCKERD_VERSION MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
 case "$MACHINE_HARDWARE_NAME" in
@@ -17,23 +17,28 @@ case "$MACHINE_HARDWARE_NAME" in
  *) echo "Architecture $MACHINE_HARDWARE_NAME is not supported!"; exit 13;;
 esac
 
+apt-get install --no-install-recommends -y libdevmapper1.02.1
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 14
+fi
+
 BASE_URL=https://download.docker.com/linux/$ID/dists/$VERSION_CODENAME/pool/stable/$ARCHITECTURE
 
-echo "Download docker ${DOCKER_VERSION}..."
-FILE="docker-ce-cli_${DOCKER_VERSION}~3-0~${ID}-${VERSION_CODENAME}_${ARCHITECTURE}.deb"
+echo "Download dockerd ${DOCKERD_VERSION}..."
+FILE="docker-ce_${DOCKERD_VERSION}~3-0~${ID}-${VERSION_CODENAME}_${ARCHITECTURE}.deb"
 rm /tmp/$FILE
 curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download docker $DOCKER_VERSION error!"; exit 21
+ echo "Download dockerd $DOCKERD_VERSION error!"; exit 21
 fi
-echo "Install docker ${DOCKER_VERSION}..."
+echo "Install dockerd ${DOCKERD_VERSION}..."
 /usr/bin/dpkg -i /tmp/$FILE
 if test $? -ne 0; then
- echo "Install docker $DOCKER_VERSION error!"; exit 22
+ echo "Install dockerd $DOCKERD_VERSION error!"; exit 22
 fi
 rm /tmp/$FILE
 
-docker --version
+dockerd --version
 if test $? -ne 0; then
- echo "Running docker $DOCKER_VERSION error!"; exit 31
+ echo "Running dockerd $DOCKERD_VERSION error!"; exit 31
 fi
