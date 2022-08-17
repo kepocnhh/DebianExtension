@@ -73,10 +73,11 @@ if test $? -ne 0; then
 fi
 
 echo "
-1. logout
-2. /opt/docker-${DOCKER_VERSION}/dockerd-rootless-setuptool.sh check
-3. /opt/docker-${DOCKER_VERSION}/dockerd-rootless-setuptool.sh install
+1. PATH=\$PATH:\$DOCKER_HOME
 4. export DOCKER_HOST=unix://\$XDG_RUNTIME_DIR/docker.sock
+2. \$DOCKER_HOME/dockerd-rootless-setuptool.sh check
+3. \$DOCKER_HOME/dockerd-rootless-setuptool.sh install
+3. reboot
 "
 
 exit 0
