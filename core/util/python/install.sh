@@ -41,7 +41,7 @@ docker rm python$PYTHON_VERSION
 docker build \
  --build-arg PYTHON_VERSION=$PYTHON_VERSION \
  -f=$DEBIAN_EXTENSION_HOME/core/util/python/Dockerfile \
- -t=python:$PYTHON_VERSION . \
+ -t=python:$PYTHON_VERSION $DEBIAN_EXTENSION_HOME/core/util/python/ \
  && docker run --name=python$PYTHON_VERSION python:$PYTHON_VERSION \
  && docker cp python$PYTHON_VERSION:/opt/Python-${PYTHON_VERSION} /opt/ \
  && docker stop python$PYTHON_VERSION && docker rm python$PYTHON_VERSION
