@@ -1,25 +1,43 @@
 #!/bin/bash
 
-if test $# -ne 2; then
-  echo "Script needs for 2 arguments but actual $#!"; exit 11
+for it in JAVA_HOME GRADLE_HOME ANDROID_HOME; do
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
+
+if test -d "/opt/google/android-studio-${ANDROID_STUDIO_VERSION}"; then
+ echo "Android studio ${ANDROID_STUDIO_VERSION} exists!"; exit 12
 fi
 
-ANDROID_STUDIO_VERSION=$1
-DISTRIBUTION=$2 # linux
+LEFT='(?<=>android-studio-)'
+RIGHT='(?=-linux.tar.gz</a>)'
+LATEST_VERSION="$(curl -s https://developer.android.com/studio/ | grep -E '^\s+>android-studio-' | grep -Po "$LEFT\S+$RIGHT")"
+if test $? -ne 0; then
+ echo "Get latest version android studio error!"; exit 13
+elif test -z "$LATEST_VERSION"; then
+ echo "Latest version android studio is empty!"; exit 14
+fi
+
+ANDROID_STUDIO_VERSION=""
+echo "
+Latest version: $LATEST_VERSION
+
+Enter android studio version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  ANDROID_STUDIO_VERSION+=$char
+ fi
+done
+
+DISTRIBUTION=linux
 
 for it in ANDROID_STUDIO_VERSION DISTRIBUTION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
-for it in JAVA_HOME GRADLE_HOME ANDROID_HOME; do
- if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 22; fi; done
-
-if test -d "/opt/google/android-studio-${ANDROID_STUDIO_VERSION}"; then
- echo "Android studio ${ANDROID_STUDIO_VERSION} exists!"; exit 23
-fi
-
 apt-get install --no-install-recommends -y libnss3 # emulator
 if test $? -ne 0; then
- echo "Install lib error!"; exit 24
+ echo "Install lib error!"; exit 22
 fi
 
 case "$ANDROID_STUDIO_VERSION" in
