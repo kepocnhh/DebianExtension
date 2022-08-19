@@ -30,49 +30,23 @@ while : ; do
 done
 
 for it in PYTHON_VERSION; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 14; fi; done
+ if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
 if test -d "/opt/Python-$PYTHON_VERSION"; then
- echo "Python ${PYTHON_VERSION} exists!"; exit 15
+ echo "Python ${PYTHON_VERSION} exists!"; exit 22
 fi
 
+docker stop python$PYTHON_VERSION
+docker rm python$PYTHON_VERSION
 docker build \
  --build-arg PYTHON_VERSION=$PYTHON_VERSION \
  -f=$DEBIAN_EXTENSION_HOME/core/util/python/Dockerfile \
- -t=python:$PYTHON_VERSION .
+ -t=python:$PYTHON_VERSION . \
+ && docker run --name=python$PYTHON_VERSION python:$PYTHON_VERSION \
+ && docker cp python$PYTHON_VERSION:/opt/Python-${PYTHON_VERSION} /opt/ \
+ && docker stop python$PYTHON_VERSION && docker rm python$PYTHON_VERSION
 
-exit 1 # todo
-
-echo "Download python key..."
-FILE="pgp_keys.asc"
-rm /tmp/$FILE
-curl -f "https://keybase.io/pablogsal/$FILE" -o /tmp/$FILE && gpg --import /tmp/$FILE || exit 41
-rm /tmp/$FILE
-
-BASE_URL="https://www.python.org/ftp/python/${PYTHON_VERSION}"
-
-echo "Download python ${PYTHON_VERSION}..."
-FILE="Python-${PYTHON_VERSION}.tgz"
-rm /tmp/$FILE
-curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
+/opt/Python-${PYTHON_VERSION}/python --version
 if test $? -ne 0; then
- echo "Download python error!"; exit 42
-fi
-
-echo "Download python $PYTHON_VERSION signature..."
-rm /tmp/${FILE}.asc
-curl -f "$BASE_URL/${FILE}.asc" -o /tmp/${FILE}.asc
-if test $? -ne 0; then
- echo "Download python $PYTHON_VERSION signature error!"; exit 43
-fi
-
-gpg --verify /tmp/${FILE}.asc /tmp/$FILE || exit 44
-rm /tmp/${FILE}.asc
-
-exit 1 # todo
-
-echo "Running java ${JAVA_VERSION}..."
-/opt/jdk-${JAVA_VERSION}/bin/java --version
-if test $? -ne 0; then
- echo "Running java error!"; exit 42
+ echo "Running python $PYTHON_VERSION error!"; exit 31
 fi
