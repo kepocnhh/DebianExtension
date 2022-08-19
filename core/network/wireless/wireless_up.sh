@@ -10,7 +10,7 @@ SSID=$2
 for it in NI_NAME SSID; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
-if test -s "/etc/wpa_supplicant.${SSID}.conf"; then
+if [ ! -s "/etc/wpa_supplicant.${SSID}.conf" ]; then
   echo "WPA supplicant conf for ssid \"$SSID\" does not exist!"; exit 13
 fi
 
