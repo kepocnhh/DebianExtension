@@ -1,7 +1,9 @@
 #!/bin/bash
 
-LEFT='(?<=>android-studio-)'
-RIGHT='(?=-linux.tar.gz</a>)'
+if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
+fi
+
 LATEST_VERSIONS="$(curl -s https://www.python.org/ftp/python/ \
  | grep -E '^<a href="[1-9].[0-9]' \
  | grep -Po '(?<=<a href=")[1-9].[0-9]+(.[0-9]+)?' \
@@ -28,11 +30,18 @@ while : ; do
 done
 
 for it in PYTHON_VERSION; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
+ if test -z "${!it}"; then echo "$it is empty!"; exit 14; fi; done
 
-if test -d "/opt/python-$PYTHON_VERSION"; then
- echo "Python ${PYTHON_VERSION} exists!"; exit 13
+if test -d "/opt/Python-$PYTHON_VERSION"; then
+ echo "Python ${PYTHON_VERSION} exists!"; exit 15
 fi
+
+docker build \
+ --build-arg PYTHON_VERSION=$PYTHON_VERSION \
+ -f=$DEBIAN_EXTENSION_HOME/core/util/python/Dockerfile \
+ -t=python:$PYTHON_VERSION .
+
+exit 1 # todo
 
 echo "Download python key..."
 FILE="pgp_keys.asc"
