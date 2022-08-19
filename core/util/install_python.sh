@@ -1,10 +1,31 @@
 #!/bin/bash
 
-if test $# -ne 1; then
-  echo "Script needs for 1 arguments but actual $#!"; exit 11
+LEFT='(?<=>android-studio-)'
+RIGHT='(?=-linux.tar.gz</a>)'
+LATEST_VERSIONS="$(curl -s https://www.python.org/ftp/python/ \
+ | grep -E '^<a href="[1-9].[0-9]' \
+ | grep -Po '(?<=<a href=")[1-9].[0-9]+(.[0-9]+)?' \
+ | sort -V | tail -n 16)"
+if test $? -ne 0; then
+ echo "Get latest versions python error!"; exit 12
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions python is empty!"; exit 13
 fi
 
-PYTHON_VERSION=$1
+PYTHON_VERSION=""
+echo "
+Latest 16 versions:
+$LATEST_VERSIONS
+
+Enter python version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  PYTHON_VERSION+=$char
+ fi
+done
 
 for it in PYTHON_VERSION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done

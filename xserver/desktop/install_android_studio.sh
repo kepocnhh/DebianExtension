@@ -3,17 +3,13 @@
 for it in JAVA_HOME GRADLE_HOME ANDROID_HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
-if test -d "/opt/google/android-studio-${ANDROID_STUDIO_VERSION}"; then
- echo "Android studio ${ANDROID_STUDIO_VERSION} exists!"; exit 12
-fi
-
 LEFT='(?<=>android-studio-)'
 RIGHT='(?=-linux.tar.gz</a>)'
 LATEST_VERSION="$(curl -s https://developer.android.com/studio/ | grep -E '^\s+>android-studio-' | grep -Po "$LEFT\S+$RIGHT")"
 if test $? -ne 0; then
- echo "Get latest version android studio error!"; exit 13
+ echo "Get latest version android studio error!"; exit 12
 elif test -z "$LATEST_VERSION"; then
- echo "Latest version android studio is empty!"; exit 14
+ echo "Latest version android studio is empty!"; exit 13
 fi
 
 ANDROID_STUDIO_VERSION=""
@@ -35,9 +31,13 @@ DISTRIBUTION=linux
 for it in ANDROID_STUDIO_VERSION DISTRIBUTION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
+if test -d "/opt/google/android-studio-${ANDROID_STUDIO_VERSION}"; then
+ echo "Android studio ${ANDROID_STUDIO_VERSION} exists!"; exit 22
+fi
+
 apt-get install --no-install-recommends -y libnss3 # emulator
 if test $? -ne 0; then
- echo "Install lib error!"; exit 22
+ echo "Install lib error!"; exit 23
 fi
 
 case "$ANDROID_STUDIO_VERSION" in
