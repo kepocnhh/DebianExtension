@@ -30,17 +30,17 @@ while : ; do
 done
 
 if test -d "/opt/ranger-$ISSUER_VERSION"; then
- echo "${ISSUER^} ${ISSUER_VERSION} exists!"; exit 23
+ echo "${ISSUER^} ${ISSUER_VERSION} exists!"; exit 21
 fi
 
 apt-get install --no-install-recommends -y file
 if test $? -ne 0; then
- echo "Install lib error!"; exit 31
+ echo "Install lib error!"; exit 22
 fi
 
 gpg --keyserver pgp.mit.edu --recv-keys '1E9B36EC051FF6F7FFC969A7F08CE1E200FB5CDF'
 if test $? -ne 0; then
- echo "Import $ISSUER public key error!"; exit 42
+ echo "Import $ISSUER public key error!"; exit 23
 fi
 
 BASE_URL=https://ranger.github.io
@@ -50,30 +50,22 @@ FILE="ranger-${ISSUER_VERSION}.tar.gz"
 rm /tmp/$FILE
 curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download $ISSUER $ISSUER_VERSION error!"; exit 42
+ echo "Download $ISSUER $ISSUER_VERSION error!"; exit 31
 fi
 
 echo "Download $ISSUER $ISSUER_VERSION signature..."
 rm /tmp/${FILE}.asc
 curl -f "$BASE_URL/${FILE}.sig" -o /tmp/${FILE}.sig
 if test $? -ne 0; then
- echo "Download $ISSUER $ISSUER_VERSION signature error!"; exit 43
+ echo "Download $ISSUER $ISSUER_VERSION signature error!"; exit 32
 fi
 
-gpg --verify /tmp/${FILE}.sig /tmp/$FILE || exit 44
+gpg --verify /tmp/${FILE}.sig /tmp/$FILE || exit 33
 rm /tmp/${FILE}.sig
 
-exit 1 # todo
-
-echo "Unzip gradle ${GRADLE_VERSION}..."
-unzip -d /opt /tmp/$FILE
+echo "Unzip $ISSUER ${ISSUER_VERSION}..."
+tar -xf /tmp/$FILE -C /opt/
 if test $? -ne 0; then
- echo "Unzip gradle error!"; exit 41
+ echo "Unzip $ISSUER $ISSUER_VERSION error!"; exit 41
 fi
 rm /tmp/$FILE
-
-echo "Running gradle ${GRADLE_VERSION}..."
-/opt/gradle-${GRADLE_VERSION}/bin/gradle --version
-if test $? -ne 0; then
- echo "Running gradle error!"; exit 42
-fi
