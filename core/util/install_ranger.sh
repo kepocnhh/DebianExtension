@@ -5,7 +5,7 @@ ISSUER=ranger
 for it in PYTHON_HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
-LATEST_VERSIONS="$(https://api.github.com/repos/ranger/ranger/git/refs/tags \
+LATEST_VERSIONS="$(curl -s https://api.github.com/repos/ranger/ranger/git/refs/tags \
  | jq -r .[].ref | grep -Po '(?<=refs/tags/v)[1-9].[0-9]\S+' \
  | sort -V | tail -n 16)"
 if test $? -ne 0; then
@@ -16,7 +16,8 @@ fi
 
 ISSUER_VERSION=""
 echo "
-Latest version: $LATEST_VERSION
+Latest 16 versions:
+$LATEST_VERSIONS
 
 Enter $ISSUER version:"
 while : ; do
@@ -24,7 +25,7 @@ while : ; do
  if test -z $char; then
   echo; break
  else
-  RANGER_VERSION+=$char
+  ISSUER_VERSION+=$char
  fi
 done
 
