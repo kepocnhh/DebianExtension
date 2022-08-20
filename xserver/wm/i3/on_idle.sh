@@ -87,7 +87,7 @@ CODE=0
 TIME_RESULT=$((TIME_RESULT+TIME_SUSPEND))
 [[ $TIME_IDLE -lt $TIME_RESULT ]] && exit 0
 
-sudo /usr/bin/systemctl suspend
+sudo -n /usr/bin/systemctl suspend
 if test $? -ne 0; then
  echo "Suspend error!" >> $LOG_PATH; exit 61
 fi
