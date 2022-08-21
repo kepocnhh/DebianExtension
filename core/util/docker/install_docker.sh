@@ -1,15 +1,17 @@
 #!/bin/bash
 
+ISSUER=docker
+
 if test $# -ne 1; then
   echo "Script needs for 1 arguments but actual $#!"; exit 11
 fi
 
-DOCKER_VERSION=$1
+ISSUER_VERSION=$1
 MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 
 . /etc/os-release
 
-for it in DOCKER_VERSION MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
+for it in ISSUER_VERSION MACHINE_HARDWARE_NAME ID VERSION_CODENAME; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
 case "$MACHINE_HARDWARE_NAME" in
@@ -19,21 +21,21 @@ esac
 
 BASE_URL=https://download.docker.com/linux/$ID/dists/$VERSION_CODENAME/pool/stable/$ARCHITECTURE
 
-echo "Download docker ${DOCKER_VERSION}..."
-FILE="docker-ce-cli_${DOCKER_VERSION}~3-0~${ID}-${VERSION_CODENAME}_${ARCHITECTURE}.deb"
+echo "Download $ISSUER ${ISSUER_VERSION}..."
+FILE="docker-ce-cli_${ISSUER_VERSION}~3-0~${ID}-${VERSION_CODENAME}_${ARCHITECTURE}.deb"
 rm /tmp/$FILE
 curl -f --connect-timeout 2 "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download docker $DOCKER_VERSION error!"; exit 21
+ echo "Download $ISSUER $ISSUER_VERSION error!"; exit 21
 fi
-echo "Install docker ${DOCKER_VERSION}..."
+echo "Install $ISSUER ${ISSUER_VERSION}..."
 /usr/bin/dpkg -i /tmp/$FILE
 if test $? -ne 0; then
- echo "Install docker $DOCKER_VERSION error!"; exit 22
+ echo "Install $ISSUER $ISSUER_VERSION error!"; exit 22
 fi
 rm /tmp/$FILE
 
 docker --version
 if test $? -ne 0; then
- echo "Running docker $DOCKER_VERSION error!"; exit 31
+ echo "Running $ISSUER $ISSUER_VERSION error!"; exit 31
 fi
