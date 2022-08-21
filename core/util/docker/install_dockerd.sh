@@ -19,6 +19,11 @@ case "$MACHINE_HARDWARE_NAME" in
  *) echo "Architecture $MACHINE_HARDWARE_NAME is not supported!"; exit 13;;
 esac
 
+apt-get install --no-install-recommends -y iptables
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 14
+fi
+
 BASE_URL=https://download.docker.com/linux/$ID/dists/$VERSION_CODENAME/pool/stable/$ARCHITECTURE
 
 echo "Download $ISSUER ${ISSUER_VERSION}..."
