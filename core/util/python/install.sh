@@ -46,8 +46,11 @@ docker build \
  && docker run --name=python$ISSUER_VERSION python:$ISSUER_VERSION \
  && docker cp python$ISSUER_VERSION:/opt/Python-$ISSUER_VERSION /opt/ \
  && docker stop python$ISSUER_VERSION && docker rm python$ISSUER_VERSION
+if test $? -ne 0; then
+ echo "Build $ISSUER $ISSUER_VERSION error!"; exit 31
+fi
 
 /opt/Python-${ISSUER_VERSION}/python --version
 if test $? -ne 0; then
- echo "Running $ISSUER $ISSUER_VERSION error!"; exit 31
+ echo "Running $ISSUER $ISSUER_VERSION error!"; exit 32
 fi
