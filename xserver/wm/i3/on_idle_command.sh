@@ -1,9 +1,11 @@
 #!/bin/bash
 
+LOG_PATH="/tmp/on_idle_command.log"
+
 if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
+ echo "Dir $DEBIAN_EXTENSION_HOME does not exist!" >> $LOG_PATH; exit 11
 elif test $# -ne 3; then
-  echo "Script needs for 3 arguments but actual $#!"; exit 12
+ echo "Script needs for 3 arguments but actual $#!" >> $LOG_PATH; exit 12
 fi
 
 TIME_SCREEN_OFF=$1
@@ -11,9 +13,7 @@ TIME_SCREEN_LOCK=$2
 TIME_SUSPEND=$3
 
 for it in TIME_SCREEN_OFF TIME_SCREEN_LOCK TIME_SUSPEND; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
-
-LOG_PATH="/tmp/on_idle.log"
+ if test -z "${!it}"; then echo "$it is empty!" >> $LOG_PATH; exit 13; fi; done
 
 if [[ ! "$TIME_SCREEN_OFF" =~ ^[1-9][0-9]*$ ]]; then
  echo "Time screen off number error!" >> $LOG_PATH; exit 21
@@ -57,5 +57,3 @@ while :; do
  fi
  sleep $TIME_STEP
 done
-
-exit 0
