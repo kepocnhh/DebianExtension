@@ -2,7 +2,7 @@
 
 ISSUER=firefox
 
-LATEST_VERSIONS="$(curl -s https://ftp.mozilla.org/pub/firefox/releases/ \
+LATEST_VERSIONS="$(curl -s --max-time 2 https://ftp.mozilla.org/pub/firefox/releases/ \
  | grep '/releases/' \
  | grep -Po '(?<=/releases/)[1-9]([0-9]|\.)+[0-9](?=/">)' \
  | sort -V | tail -n 16)"
