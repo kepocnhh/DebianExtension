@@ -6,7 +6,7 @@ for it in JAVA_HOME GRADLE_HOME; do
 ISSUER=idea
 
 LATEST_VERSIONS="$(curl -s --max-time 2 https://blog.jetbrains.com/idea/category/releases/ \
- | grep '<h3>Intellij IDEA' \
+ | grep '<h3>IntelliJ IDEA' \
  | grep -Po '(?<=IDEA )\S+(?= (I|i)s )' \
  | sort -V)"
 if test $? -ne 0; then
