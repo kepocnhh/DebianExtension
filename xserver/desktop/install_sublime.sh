@@ -30,7 +30,6 @@ while : ; do
  fi
 done
 
-ISSUER_VERSION=$1
 MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 
 for it in ISSUER_VERSION MACHINE_HARDWARE_NAME; do
