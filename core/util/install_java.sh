@@ -4,7 +4,7 @@ ISSUER=java
 
 LATEST_VERSIONS="$(curl -s --max-time 2 https://jdk.java.net/archive/ \
  | grep '(build ' \
- | grep -Po '(?<=<th>)[1-9]([0-9]|\.)+[0-9](?=(build )' \
+ | grep -Po '(?<=<th>)\S+' \
  | sort -V)"
 if test $? -ne 0; then
  echo "Get latest versions $ISSUER error!"; exit 11
