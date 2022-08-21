@@ -2,9 +2,8 @@
 
 echo "Install bluetooth..."
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
-fi
+for it in HOME DEBIAN_EXTENSION_HOME; do
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
 ARRAY=(\
 "pulseaudio-module-bluetooth" \
@@ -17,12 +16,12 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  fi
 done
 
-touch $HOME/.bash_aliases
+mkdir $HOME/.local
 echo "
 alias bt=/usr/bin/bluetoothctl
 alias btc=\"bt connect\"
 alias btdc=\"bt disconnect\"
-" >> $HOME/.bash_aliases
+" >> $HOME/.local/aliases
 
 echo "Install bluetooth success."
 

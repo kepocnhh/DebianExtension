@@ -1,17 +1,36 @@
 # DebianExtension
 A few Debian extensions
 
-#1
 ```
-$ sudo -E core/session/install.sh
-$ sudo -E core/media/install.sh
-$ sudo -E core/network/bluetooth/install.sh
-$ sudo -E core/util/install.sh
+$ sudo -E core/install.sh
+$ sudo -E xserver/install.sh
+$ sudo chown -R $USER:$USER $HOME
+$ echo ". \$HOME/.local/aliases" >> $HOME/.bashrc
+$ echo ". \$HOME/.local/environment" >> $HOME/.bashrc
 ```
 
-#2
+xserver on idle suspend
 ```
-$ sudo -E xserver/install.sh
-$ sudo -E xserver/wm/install.sh
-$ sudo chown -R $USER $HOME
+$ echo "$USER $HOSTNAME=NOPASSWD:/usr/bin/systemctl suspend" | sudo tee -a /etc/sudoers.d/$USER
+```
+
+auto mount on
+```
+$ sudo mkdir /etc/environment.d
+$ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
+```
+
+wireless alias
+```
+$ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
+```
+
+`apt-get` no install recommends alias
+```
+$ echo "alias agi=\"sudo apt-get install --no-install-recommends\"" >> $HOME/.local/aliases
+```
+
+monitor
+```
+$ echo "/usr/bin/xrandr -s 2560x1440 -r 144" >> $HOME/.xsessionrc
 ```

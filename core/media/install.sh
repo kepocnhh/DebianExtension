@@ -2,22 +2,20 @@
 
 echo "Install media..."
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
-fi
+for it in HOME DEBIAN_EXTENSION_HOME; do
+ if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
-ARRAY=(\
-"audio/install_alsa-utils.sh" \
-"audio/install_pulseaudio.sh" \
-"install_playerctl.sh")
+ARRAY=("alsa-utils" pulseaudio playerctl)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/core/media/$ITEM
- if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"; exit $((20 + i))
- fi
+ $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}" || exit $((20 + i))
 done
 
-echo "Install media success."
+mkdir -p $HOME/.config/systemd/user
+ln -s /dev/null $HOME/.config/systemd/user/pulseaudio.socket
+echo "/usr/bin/pulseaudio --check || /usr/bin/pulseaudio --start" >> $HOME/.xsessionrc
+
+aplay --version
+pulseaudio --version
+playerctl --version
 
 exit 0

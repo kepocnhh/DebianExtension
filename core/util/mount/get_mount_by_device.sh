@@ -1,24 +1,16 @@
 #!/bin/bash
 
-ERROR_CODE_DEVICE_EXIST=11
-ERROR_CODE_DEVICE_EMPTY=21
-ERROR_CODE_RESULT_EMPTY=31
-
-tmp=$(ls /dev/sd* | grep -E "sd[a-z][0-9]")
+tmp=$(ls /dev/sd* 2> /dev/null | grep -E "^/dev/sd[a-z][1-9]$")
 if test $? -ne 0; then
- echo "Device must exist!"
- exit $ERROR_CODE_DEVICE_EXIST
-fi
-if test -z "$tmp"; then
- echo "Device empty!"
- exit $ERROR_CODE_DEVICE_EMPTY
+ echo "Device does not exist!"; exit 11
+elif test -z "$tmp"; then
+ echo "Device is empty!"; exit 12
 fi
 
 ARRAY=(${tmp//$'\n'/ })
-SIZE=${#ARRAY[@]}
 
 RESULT=""
-for ((i = 0; i < SIZE; i++)); do
+for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  DEVICE="${ARRAY[$i]}"
  MOUNTPOINT=$(/usr/bin/lsblk -nb "$DEVICE" -o MOUNTPOINT)
  [[ $? -ne 0 ]] && continue
@@ -32,8 +24,7 @@ for ((i = 0; i < SIZE; i++)); do
 done
 
 if test -z "$RESULT"; then
- echo "Result empty!"
- exit $ERROR_CODE_RESULT_EMPTY
+ echo "Result is empty!"; exit 21
 fi
 
 echo "$RESULT"

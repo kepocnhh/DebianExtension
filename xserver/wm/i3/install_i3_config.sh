@@ -2,10 +2,6 @@
 
 echo "Install i3 config..."
 
-ERROR_CODE_COPY_CONFIG_STATUS_FILE=31
-ERROR_CODE_MAKE_BIN_DIR=41
-ERROR_CODE_COPY_COMMAND=51
-
 if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
  echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
 elif [ ! -d "$HOME" ]; then
@@ -13,38 +9,33 @@ elif [ ! -d "$HOME" ]; then
 fi
 
 I3_PATH=$DEBIAN_EXTENSION_HOME/xserver/wm/i3
-RESOURCE_PATH=$I3_PATH/res
-RESULT_CONFIG_PATH="$HOME/.config/i3/config"
+RESULT_DIR="$HOME/.config/i3"
 
-rm $RESULT_CONFIG_PATH
-mkdir -p "$HOME/.config/i3"
+rm $RESULT_DIR/config
+mkdir -p $RESULT_DIR
 
-cp $RESOURCE_PATH/config $RESULT_CONFIG_PATH
+
+if [ ! -s $I3_PATH/res/config ]; then
+ echo "Config i3 does not exist!"; exit 21
+fi
+
+cp $I3_PATH/res/config $RESULT_DIR/config
 if test $? -ne 0; then
- echo "Copy config file error!"; exit 21
+ echo "Copy config file error!"; exit 22
 fi
 
-BIN_PATH="$HOME/.local/bin"
-if test ! -d "$BIN_PATH"; then
- mkdir -p "$BIN_PATH"
- if test $? -ne 0; then
-  echo "Make bin dir $BIN_PATH error!"; exit 22
- fi
+if [ ! -s $I3_PATH/status_command.sh ]; then
+ echo "Status command does not exist!"; exit 31
+elif [ ! -s $I3_PATH/on_idle_command.sh ]; then
+ echo "On idle command does not exist!"; exit 32
 fi
 
-COMMAND_NAME="status_command.sh"
-rm "$BIN_PATH/$COMMAND_NAME"
-cp "$I3_PATH/$COMMAND_NAME" "$BIN_PATH/$COMMAND_NAME"
-if test $? -ne 0; then
- echo "Copy \"$COMMAND_NAME\" command file error!"; exit 23
-fi
-
-COMMAND_NAME="on_idle_command.sh"
-rm "$BIN_PATH/$COMMAND_NAME"
-cp "$I3_PATH/$COMMAND_NAME" "$BIN_PATH/$COMMAND_NAME"
-if test $? -ne 0; then
- echo "Copy \"$COMMAND_NAME\" command file error!"; exit 24
-fi
+# 1000*60*10 = 600000
+# 1000*60*5  = 300000
+echo "
+/usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
+\$DEBIAN_EXTENSION_HOME/xserver/wm/i3/on_idle_command.sh 600000 300000 300000 &
+" >> $HOME/.xsessionrc
 
 echo "Install i3 config success."
 

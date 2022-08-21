@@ -31,8 +31,9 @@ if test $? -ne 0; then
 fi
 
 PACKAGE="libnl-3-200"
-# VERSION_LIBNL="3.4.0-1_${ARCHITECTURE}" # buster
-VERSION_LIBNL="3.5.0-0.1_${ARCHITECTURE}"
+# VERSION_LIBNL="3.4.0-1_${ARCHITECTURE}"
+VERSION_LIBNL="3.4.0-1+b1_${ARCHITECTURE}"
+# VERSION_LIBNL="3.5.0-0.1_${ARCHITECTURE}"
 VERSION=$VERSION_LIBNL
 URL="$URL_BASE/main/libn/libnl3/${PACKAGE}_${VERSION}.deb"
 curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
@@ -66,8 +67,9 @@ if test $? -ne 0; then
 fi
 
 PACKAGE="libdbus-1-3"
-# VERSION=1.12.20-0+deb10u1_${ARCHITECTURE} # buster
-VERSION="1.14.0-2_${ARCHITECTURE}"
+# VERSION=1.12.20-0+deb10u1_${ARCHITECTURE}
+VERSION="1.12.20-2_${ARCHITECTURE}"
+# VERSION="1.14.0-2_${ARCHITECTURE}"
 URL="$URL_BASE/main/d/dbus/${PACKAGE}_${VERSION}.deb"
 curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
 if test $? -ne 0; then
@@ -75,8 +77,9 @@ if test $? -ne 0; then
 fi
 
 PACKAGE="libpcsclite1"
-# VERSION="1.8.24-1_${ARCHITECTURE}" # buster
-VERSION="1.9.8-1_${ARCHITECTURE}"
+# VERSION="1.8.24-1_${ARCHITECTURE}"
+VERSION="1.9.1-1_${ARCHITECTURE}"
+# VERSION="1.9.8-1_${ARCHITECTURE}"
 URL="$URL_BASE/main/p/pcsc-lite/${PACKAGE}_${VERSION}.deb"
 curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
 if test $? -ne 0; then

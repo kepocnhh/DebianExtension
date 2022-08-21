@@ -82,10 +82,10 @@ client.unfocused $color_bg $color_inactive $color_tx $color_bg $color_bg
 client.urgent $color_bg $color_urgent $color_tx $color_bg $color_bg
 
 bar {
- status_command $HOME/.local/bin/status_command.sh
+ status_command $DEBIAN_EXTENSION_HOME/xserver/wm/i3/status_command.sh
 
- wheel_up_cmd nop
- wheel_down_cmd nop
+ bindsym button4 nop
+ bindsym button5 nop
 
  colors {
   background $color_bg
@@ -96,9 +96,3 @@ bar {
 }
 
 bindsym $mod+l exec i3lock --color='$color_bg'
-
-exec --no-startup-id xset dpms 0 0 0; xset s off
-
-# 1000*60*10 = 600000
-# 1000*60*5  = 300000
-exec --no-startup-id $HOME/.local/bin/on_idle_command.sh 600000 300000 300000

@@ -7,9 +7,9 @@ if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
 fi
 
 DEFAULT_PATH="/etc/default"
-ARRAY=("console-setup" "keyboard")
+ARRAY=("console-setup" keyboard grub)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- FILE_NAME="${array[$i]}"
+ FILE_NAME="${ARRAY[$i]}"
  RESULT_PATH="$DEFAULT_PATH/$FILE_NAME"
  rm "$RESULT_PATH"
  cp "$DEBIAN_EXTENSION_HOME/debian$RESULT_PATH" "$RESULT_PATH"
@@ -18,6 +18,16 @@ for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  fi
  echo "Copy \"$RESULT_PATH\" file success."
 done
+
+udevadm trigger --subsystem-match=input --action=change
+if test $? -ne 0; then
+ echo "Restart keyboard error!"; exit 31
+fi
+
+update-grub
+if test $? -ne 0; then
+ echo "Update grub error!"; exit 31
+fi
 
 echo "Install default success."
 

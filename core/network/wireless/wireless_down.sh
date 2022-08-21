@@ -1,49 +1,29 @@
 #!/bin/bash
 
-echo "wireless down..."
-
-ERROR_CODE_SERVICE=11
-ERROR_CODE_EMPTY_NETWORK_INTERFACE_NAME=20
-ERROR_CODE_ADDRESS_FLUSH=41
-ERROR_CODE_ROUTE_FLUSH=42
-ERROR_CODE_NETWORK_INTERFACE_DOWN=51
-ERROR_CODE_DHCLIENT=70
-
-ARGUMENT_COUNT_EXPECTED=1
-if test $# -ne $ARGUMENT_COUNT_EXPECTED; then
- echo "Script needs for $ARGUMENT_COUNT_EXPECTED arguments but actual $#"
- exit $ERROR_CODE_SERVICE
+if test $# -ne 1; then
+  echo "Script needs for 1 arguments but actual $#!"; exit 11
 fi
 
 NI_NAME=$1
 
-if test -z $NI_NAME; then
-    echo "Network interface name must be not empty!"
-    exit $ERROR_CODE_EMPTY_NETWORK_INTERFACE_NAME
-fi
+for it in NI_NAME; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
-CODE=0
-/usr/bin/ip addr flush dev $NI_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Address flush $CODE!"
- exit $ERROR_CODE_ADDRESS_FLUSH
+/usr/bin/ip addr flush dev $NI_NAME
+if test $? -ne 0; then
+ echo "Address flush!"; exit 21
 fi
-/usr/bin/ip route flush dev $NI_NAME; CODE=$?
-if test $CODE -ne 0; then
- echo "Route flush $CODE!"
- exit $ERROR_CODE_ROUTE_FLUSH
+/usr/bin/ip route flush dev $NI_NAME
+if test $? -ne 0; then
+ echo "Route flush!"; exit 22
 fi
-/usr/bin/ip link set $NI_NAME down; CODE=$?
-if test $CODE -ne 0; then
- echo "Network interface down error $CODE!"
- exit $ERROR_CODE_NETWORK_INTERFACE_DOWN
+/usr/bin/ip link set $NI_NAME down
+if test $? -ne 0; then
+ echo "Network interface down error!"; exit 23
 fi
-/usr/sbin/dhclient -r; CODE=$?
-if test $CODE -ne 0; then
- echo "dhclient error $CODE!"
- exit $ERROR_CODE_DHCLIENT
+/usr/sbin/dhclient -r
+if test $? -ne 0; then
+ echo "dhclient error!"; exit 24
 fi
-
-echo "wireless down success."
 
 exit 0

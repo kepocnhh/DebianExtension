@@ -1,38 +1,56 @@
 #!/bin/bash
 
+if test $# -ne 2; then
+  echo "Script needs for 2 arguments but actual $#!"; exit 11
+fi
+
+OPTION=$1
+DEBIAN_EXTENSION_VERSION=$2
+
+for it in OPTION DEBIAN_EXTENSION_VERSION; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
+
+ENCODED=${DEBIAN_EXTENSION_VERSION////-}
+
 REPOSITORY_OWNER="kepocnhh"
 REPOSITORY_NAME="DebianExtension"
 
-echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME}..."
-
-if test $# -ne 1; then
-  echo "Script needs for 1 arguments but actual $#!"; exit 21
+if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
+ echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
 fi
 
-VERSION=$1
-
-for it in VERSION; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 22; fi; done
-
-/usr/bin/apt-get install --no-install-recommends -y git ca-certificates
+apt-get install --no-install-recommends -y curl ca-certificates unzip
 if test $? -ne 0; then
- echo "Install required error!"; exit 11
+ echo "Install lib error!"; exit 14
 fi
 
-FILE_PATH="/usr/local/bin/DebianExtension"
-rm -rf $FILE_PATH
-mkdir -p $FILE_PATH
+echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME} ${DEBIAN_EXTENSION_VERSION}..."
 
-git -C $FILE_PATH init \
- && git -C $FILE_PATH remote add origin https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}.git \
- && git -C $FILE_PATH fetch --depth=1 origin $VERSION \
- && git -C $FILE_PATH checkout FETCH_HEAD
+BASE_URL="https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}/archive/refs"
+
+case "$OPTION" in
+ '-t' | '--tag') BASE_URL="$BASE_URL/tags";;
+ '-b' | '--branch') BASE_URL="$BASE_URL/heads";;
+ *) echo "Option \"$OPTION\" is not supported!"; exit 21;;
+esac
+
+echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
+FILE="${REPOSITORY_NAME}-${ENCODED}.zip"
+rm /tmp/$FILE
+curl -f -L "$BASE_URL/${DEBIAN_EXTENSION_VERSION}.zip" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Clone error!"; exit 13
+ echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31
 fi
 
-echo "DEBIAN_EXTENSION_HOME=$FILE_PATH" >> /etc/environment
+echo "Unzip $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
+unzip -d /opt /tmp/$FILE
+if test $? -ne 0; then
+ echo "Unzip $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 32
+fi
+rm /tmp/$FILE
 
-echo "Install Debian Extension success."
+cat /opt/${REPOSITORY_NAME}-${ENCODED}/README.md
+
+echo "Install $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION success."
 
 exit 0

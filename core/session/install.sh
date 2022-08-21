@@ -8,11 +8,7 @@ fi
 
 ARRAY=(dbus "libpam-systemd")
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
- ITEM="${ARRAY[$i]}"
- $DEBIAN_EXTENSION_HOME/common/install_package.sh "$ITEM"
- if test $? -ne 0; then
-  echo "Install \"$ITEM\" error!"; exit $((20 + i))
- fi
+ $DEBIAN_EXTENSION_HOME/common/install_package.sh "${ARRAY[$i]}" || exit $((20 + i))
 done
 
 echo "Install session success."

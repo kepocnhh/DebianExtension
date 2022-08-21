@@ -1,0 +1,5 @@
+[
+ { "keys": ["ctrl+shift+u"], "command": "upper_case" },
+ { "keys": ["ctrl+shift+l"], "command": "lower_case" },
+ { "keys": ["ctrl+d"], "command": "duplicate_line" }
+]
