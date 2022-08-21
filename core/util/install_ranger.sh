@@ -30,7 +30,7 @@ while : ; do
 done
 
 if test -d "/opt/ranger-$ISSUER_VERSION"; then
- echo "${ISSUER^} ${ISSUER_VERSION} exists!"; exit 21
+ echo "${ISSUER^} $ISSUER_VERSION exists!"; exit 21
 fi
 
 apt-get install --no-install-recommends -y file
@@ -38,7 +38,9 @@ if test $? -ne 0; then
  echo "Install lib error!"; exit 22
 fi
 
-gpg --keyserver pgp.mit.edu --recv-keys '1E9B36EC051FF6F7FFC969A7F08CE1E200FB5CDF'
+gpg --keyserver pgp.mit.edu --recv-keys \
+ '1E9B36EC051FF6F7FFC969A7F08CE1E200FB5CDF' \
+ '66FA95C0F1619BDA520A41F60D63346A5D15D055'
 if test $? -ne 0; then
  echo "Import $ISSUER public key error!"; exit 23
 fi
