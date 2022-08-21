@@ -27,12 +27,7 @@ while : ; do
  fi
 done
 
-. /etc/os-release
-
-for it in MACHINE_HARDWARE_NAME; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
-
-DISTRIBUTION="linux-$MACHINE_HARDWARE_NAME"
+DISTRIBUTION="linux-$(/usr/bin/uname -m)"
 LANGUAGE='en-US'
 
 for it in ISSUER_VERSION DISTRIBUTION LANGUAGE; do
