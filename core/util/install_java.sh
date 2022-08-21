@@ -1,60 +1,80 @@
 #!/bin/bash
 
-if test $# -ne 1; then
-  echo "Script needs for 1 arguments but actual $#!"; exit 11
+ISSUER=java
+
+LATEST_VERSIONS="$(curl -s --max-time 2 https://jdk.java.net/archive/ \
+ | grep '(build ' \
+ | grep -Po '(?<=<th>)[1-9]([0-9]|\.)+[0-9](?=(build )' \
+ | sort -V)"
+if test $? -ne 0; then
+ echo "Get latest versions $ISSUER error!"; exit 11
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions $ISSUER is empty!"; exit 12
 fi
 
-JAVA_VERSION=$1
-DISTRIBUTION='linux-x64'
+ISSUER_VERSION=""
+echo "
+Latest versions:
+$LATEST_VERSIONS
 
-for it in JAVA_VERSION DISTRIBUTION; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
+Enter $ISSUER version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  ISSUER_VERSION+=$char
+ fi
+done
 
-if test -d "/opt/jdk-$JAVA_VERSION"; then
- echo "Java ${JAVA_VERSION} exists!"; exit 13
+MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
+
+for it in ISSUER_VERSION MACHINE_HARDWARE_NAME; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
+
+if test -d "/opt/jdk-$ISSUER_VERSION"; then
+ echo "${ISSUER^} $ISSUER_VERSION exists!"; exit 14
 fi
 
-case "$DISTRIBUTION" in
- 'linux-x64') /bin/true;; # ignored
- *) echo "Distribution $DISTRIBUTION is not supported!"; exit 21;;
+case "$MACHINE_HARDWARE_NAME" in
+ 'x86_64') DISTRIBUTION='linux-x64';;
+ *) echo "Architecture $MACHINE_HARDWARE_NAME is not supported!"; exit 15;;
 esac
 
-case "$JAVA_VERSION" in
+case "$ISSUER_VERSION" in
  '12.0.2') INTERMEDIATE="e482c34c86bd4bf8b56c0b35558996b9/10";;
  '17.0.2') INTERMEDIATE="dfd4a8d0985749f896bed50d7138ee7f/8";;
- *) echo "Java version $JAVA_VERSION is not supported!"; exit 22;;
+ *) echo "${ISSUER^} version $ISSUER_VERSION is not supported!"; exit 16;;
 esac
 
-BASE_URL="https://download.java.net/java/GA/jdk${JAVA_VERSION}/${INTERMEDIATE}/GPL"
+BASE_URL="https://download.java.net/java/GA/jdk${ISSUER_VERSION}/${INTERMEDIATE}/GPL"
 
-echo "Download java ${JAVA_VERSION}..."
-FILE="openjdk-${JAVA_VERSION}_${DISTRIBUTION}_bin.tar.gz"
+echo "Download $ISSUER ${ISSUER_VERSION}..."
+FILE="openjdk-${ISSUER_VERSION}_${DISTRIBUTION}_bin.tar.gz"
 rm /tmp/$FILE
 curl -f "$BASE_URL/$FILE" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download java error!"; exit 31
+ echo "Download $ISSUER $ISSUER_VERSION error!"; exit 21
 fi
 
-echo "Download java checksum..."
+echo "Download $ISSUER $ISSUER_VERSION checksum..."
 rm /tmp/${FILE}.sha256
 curl -f "$BASE_URL/${FILE}.sha256" -o /tmp/${FILE}.sha256
 if test $? -ne 0; then
- echo "Download java checksum error!"; exit 32
+ echo "Download $ISSUER $ISSUER_VERSION checksum error!"; exit 22
 fi
-echo "$(cat /tmp/${FILE}.sha256) /tmp/${FILE}" | sha256sum -c || exit 33
+echo "$(cat /tmp/${FILE}.sha256) /tmp/${FILE}" | sha256sum -c || exit 23
 rm /tmp/${FILE}.sha256
 
-echo "Unzip java ${JAVA_VERSION}..."
+echo "Unzip $ISSUER ${ISSUER_VERSION}..."
 tar -xf /tmp/$FILE -C /opt
 if test $? -ne 0; then
- echo "Unzip java error!"; exit 41
+ echo "Unzip $ISSUER $ISSUER_VERSION error!"; exit 31
 fi
 rm /tmp/$FILE
 
-echo "Running java ${JAVA_VERSION}..."
-/opt/jdk-${JAVA_VERSION}/bin/java --version
+echo "Running $ISSUER ${ISSUER_VERSION}..."
+/opt/jdk-${ISSUER_VERSION}/bin/java --version
 if test $? -ne 0; then
- echo "Running java error!"; exit 42
+ echo "Running $ISSUER $ISSUER_VERSION error!"; exit 41
 fi
-
-exit 0
