@@ -51,7 +51,7 @@ while :; do
  if test -z "$DISPLAY"; then
   echo "on idle command display empty!" >> $LOG_PATH; exit 32
  fi
- $DEBIAN_EXTENSION_HOME/xserver/wm/i3/on_idle.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND
+ $DEBIAN_EXTENSION_HOME/xserver/wm/on_idle.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND
  if test $? -ne 0; then
   echo "on idle script error!" >> $LOG_PATH; exit 33
  fi

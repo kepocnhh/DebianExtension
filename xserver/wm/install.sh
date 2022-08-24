@@ -23,6 +23,11 @@ if test $? -ne 0; then
  echo "Install i3 error!"; exit 31
 fi
 
-echo "Install wm success."
+# 1000*60*10 = 600000
+# 1000*60*5  = 300000
+echo "
+/usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
+\$DEBIAN_EXTENSION_HOME/xserver/wm/on_idle_command.sh 600000 300000 300000 &
+" >> $HOME/.xsessionrc
 
-exit 0
+echo "Install wm success."
