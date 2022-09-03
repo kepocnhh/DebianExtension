@@ -17,8 +17,13 @@ fi
 
 case "$MACHINE_HARDWARE_NAME" in
  'x86_64') DISTRIBUTION='linux64';;
- *) echo "Distribution $MACHINE_HARDWARE_NAME is not supported!"; exit 23;;
+ *) echo "Distribution $MACHINE_HARDWARE_NAME is not supported!"; exit 31;;
 esac
+
+apt-get install --no-install-recommends -y xdg-utils
+if test $? -ne 0; then
+ echo "Install lib error!"; exit 32
+fi
 
 BASE_URL="https://dl.pstmn.io/download/$ISSUER_VERSION/$DISTRIBUTION"
 
@@ -31,8 +36,8 @@ if test $? -ne 0; then
 fi
 
 echo "Unzip $ISSUER ${ISSUER_VERSION}..."
-rm -rf /tmp/$ISSUER
-tar -xf /tmp/$FILE -C /tmp
+rm -rf /tmp/Postman/
+tar -xf /tmp/$FILE -C /tmp/
 if test $? -ne 0; then
  echo "Unzip $ISSUER $ISSUER_VERSION error!"; exit 42
 fi
@@ -45,4 +50,4 @@ mv /tmp/Postman/app "$HOME/.local/Postman"
 if test $? -ne 0; then
  echo "Install $ISSUER $ISSUER_VERSION error!"; exit 52
 fi
-rm /tmp/$FILE
+rm -rf /tmp/Postman/
