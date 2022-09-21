@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for it in JAVA_HOME GRADLE_HOME; do
+for it in HOME JAVA_HOME GRADLE_HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 22; fi; done
 
 ISSUER=idea
@@ -33,8 +33,8 @@ done
 for it in ISSUER_VERSION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
-if test -d "/opt/jetbrains/idea-$ISSUER_VERSION"; then
- echo "${ISSUER^} $ISSUER_VERSION exists!"; exit 22
+if test -d "$HOME/.local/jetbrains/idea"; then
+ echo "${ISSUER^} exists!"; exit 22
 fi
 
 BASE_URL="https://download.jetbrains.com/idea"
@@ -64,10 +64,10 @@ if test $? -ne 0; then
 fi
 
 echo "Install $ISSUER ${ISSUER_VERSION}..."
-if [ ! -d "/opt/jetbrains" ]; then
- mkdir "/opt/jetbrains" || exit 1 # todo
+if [ ! -d "$HOME/.local/jetbrains" ]; then
+ mkdir "$HOME/.local/jetbrains" || exit 1 # todo
 fi
-mv /tmp/idea-IC-* "/opt/jetbrains/idea-${ISSUER_VERSION}"
+mv /tmp/idea-IC-* "$HOME/.local/jetbrains/idea"
 if test $? -ne 0; then
  echo "Install $ISSUER $ISSUER_VERSION error!"; exit 42
 fi
