@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for it in JAVA_HOME GRADLE_HOME ANDROID_HOME; do
+for it in HOME JAVA_HOME GRADLE_HOME ANDROID_HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
 ISSUER="android studio"
@@ -33,8 +33,8 @@ DISTRIBUTION=linux
 for it in ISSUER_VERSION DISTRIBUTION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
-if test -d "/opt/google/android-studio-$ISSUER_VERSION"; then
- echo "${ISSUER^} $ISSUER_VERSION exists!"; exit 22
+if test -d "$HOME/.local/google/android-studio"; then
+ echo "${ISSUER^} exists!"; exit 22
 fi
 
 apt-get install --no-install-recommends -y libnss3 # emulator
@@ -65,18 +65,12 @@ fi
 echo "$SHA_256 /tmp/$FILE" | sha256sum -c || exit 42
 
 echo "Unzip $ISSUER ${ISSUER_VERSION}..."
+if [ ! -d "$HOME/.local/google" ]; then
+ mkdir "$HOME/.local/google" || exit 1 # todo
+fi
 rm -rf /tmp/android-studio
-tar -xf /tmp/$FILE -C /tmp
+tar -xf /tmp/$FILE -C "$HOME/.local/google"
 if test $? -ne 0; then
  echo "Unzip $ISSUER $ISSUER_VERSION error!"; exit 51
-fi
-
-echo "Install $ISSUER ${ISSUER_VERSION}..."
-if [ ! -d /opt/google ]; then
- mkdir /opt/google || exit 1 # todo
-fi
-mv /tmp/android-studio "/opt/google/android-studio-$ISSUER_VERSION"
-if test $? -ne 0; then
- echo "Install $ISSUER $ISSUER_VERSION error!"; exit 52
 fi
 rm /tmp/$FILE
