@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "download wlan packages..."
+echo "Download wlan packages..."
 
 if [ ! -d "$HOME" ]; then
  echo "Dir $HOME does not exist!"; exit 11
@@ -22,75 +22,222 @@ mkdir -p $FILE_PATH
 URL_BASE="http://ftp.debian.org/debian/pool"
 
 PACKAGE="firmware-iwlwifi"
-# VERSION="20190114-2_all" # buster
-VERSION="20210818-1_all"
-URL="$URL_BASE/non-free/f/firmware-nonfree/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+
+URL_SOURCE="$URL_BASE/non-free/f/firmware-nonfree"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_all.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_all.deb\">${PACKAGE}_)\S+(?=_all.deb</a>)" \
+ | sort -V | tail -n 4)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 31
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 32
+fi
+
+VERSION=""
+echo "
+Latest 4 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_all.deb"
+URL="$URL_SOURCE/$FILE"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 21
 fi
 
 PACKAGE="libnl-3-200"
-# VERSION_LIBNL="3.4.0-1_${ARCHITECTURE}"
 VERSION_LIBNL="3.4.0-1+b1_${ARCHITECTURE}"
-# VERSION_LIBNL="3.5.0-0.1_${ARCHITECTURE}"
 VERSION=$VERSION_LIBNL
-URL="$URL_BASE/main/libn/libnl3/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+
+URL_SOURCE="$URL_BASE/main/libn/libnl3"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_${ARCHITECTURE}.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_${ARCHITECTURE}.deb\">${PACKAGE}_)\S+(?=_${ARCHITECTURE}.deb</a>)" \
+ | sort -V | tail -n 8)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 33
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 34
+fi
+
+VERSION=""
+echo "
+Latest 8 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 22
 fi
 
 PACKAGE="libnl-genl-3-200"
-VERSION=$VERSION_LIBNL
-URL="$URL_BASE/main/libn/libnl3/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 23
 fi
 
 PACKAGE="libnl-route-3-200"
-VERSION=$VERSION_LIBNL
-URL="$URL_BASE/main/libn/libnl3/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 24
 fi
 
 PACKAGE="iw"
-# VERSION="5.0.1-1_${ARCHITECTURE}" # buster
 VERSION="5.19-1_${ARCHITECTURE}"
-URL="$URL_BASE/main/i/iw/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+URL_SOURCE="$URL_BASE/main/i/iw"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_${ARCHITECTURE}.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_${ARCHITECTURE}.deb\">${PACKAGE}_)\S+(?=_${ARCHITECTURE}.deb</a>)" \
+ | sort -V | tail -n 8)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 35
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 36
+fi
+
+VERSION=""
+echo "
+Latest 8 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 25
 fi
 
 PACKAGE="libdbus-1-3"
-# VERSION=1.12.20-0+deb10u1_${ARCHITECTURE}
 VERSION="1.12.20-2_${ARCHITECTURE}"
-# VERSION="1.14.0-2_${ARCHITECTURE}"
-URL="$URL_BASE/main/d/dbus/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+URL_SOURCE="$URL_BASE/main/d/dbus"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_${ARCHITECTURE}.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_${ARCHITECTURE}.deb\">${PACKAGE}_)\S+(?=_${ARCHITECTURE}.deb</a>)" \
+ | sort -V | tail -n 8)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 37
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 38
+fi
+
+VERSION=""
+echo "
+Latest 8 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 26
 fi
 
 PACKAGE="libpcsclite1"
-# VERSION="1.8.24-1_${ARCHITECTURE}"
 VERSION="1.9.1-1_${ARCHITECTURE}"
-# VERSION="1.9.8-1_${ARCHITECTURE}"
-URL="$URL_BASE/main/p/pcsc-lite/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+URL_SOURCE="$URL_BASE/main/p/pcsc-lite"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_${ARCHITECTURE}.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_${ARCHITECTURE}.deb\">${PACKAGE}_)\S+(?=_${ARCHITECTURE}.deb</a>)" \
+ | sort -V | tail -n 8)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 39
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 40
+fi
+
+VERSION=""
+echo "
+Latest 8 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 27
 fi
 
 PACKAGE="wpasupplicant"
-# VERSION="2.7+git20190128+0c1e29f-6+deb10u2_${ARCHITECTURE}" # buster
 VERSION="2.9.0-21_${ARCHITECTURE}"
-URL="$URL_BASE/main/w/wpa/${PACKAGE}_${VERSION}.deb"
-curl -L "$URL" -f -o "$FILE_PATH/${PACKAGE}_${VERSION}.deb"
+URL_SOURCE="$URL_BASE/main/w/wpa"
+LATEST_VERSIONS="$(curl -s -f --connect-timeout 4 --max-time 4 "$URL_SOURCE/" \
+ | grep -E "_${ARCHITECTURE}.deb\">${PACKAGE}_" \
+ | grep -Po "(?<=_${ARCHITECTURE}.deb\">${PACKAGE}_)\S+(?=_${ARCHITECTURE}.deb</a>)" \
+ | sort -V | tail -n 8)"
+if test $? -ne 0; then
+ echo "Get latest versions \"$PACKAGE\" error!"; exit 41
+elif test -z "$LATEST_VERSIONS"; then
+ echo "Latest versions \"$PACKAGE\" is empty!"; exit 42
+fi
+
+VERSION=""
+echo "
+Latest 8 versions:
+$LATEST_VERSIONS
+
+Enter \"$PACKAGE\" version:"
+while : ; do
+ read -n1 char
+ if test -z $char; then
+  echo; break
+ else
+  VERSION+=$char
+ fi
+done
+
+FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.deb"
+curl -L -f "$URL_SOURCE/$FILE" -o "$FILE_PATH/$FILE"
 if test $? -ne 0; then
  echo "Download \"$PACKAGE\" error!"; exit 28
 fi
