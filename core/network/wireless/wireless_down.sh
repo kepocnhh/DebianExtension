@@ -26,4 +26,9 @@ if test $? -ne 0; then
  echo "dhclient error!"; exit 24
 fi
 
+kill $(pidof wpa_supplicant)
+if test $? -ne 0; then
+ echo "Kill WPA error!"; exit 25
+fi
+
 exit 0
