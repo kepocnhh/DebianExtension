@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for it in HOME JAVA_HOME GRADLE_HOME ANDROID_HOME; do
+for it in JAVA_HOME GRADLE_HOME ANDROID_HOME; do
  if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
 
 ISSUER="android studio"
@@ -23,6 +23,11 @@ while : ; do
  read -n1 char
  if test -z $char; then
   echo; break
+ elif test $char == $'\x7f'; then
+  if [ ! -z "$ISSUER_VERSION" ]; then
+   ISSUER_VERSION="${ISSUER_VERSION:0:((${#ISSUER_VERSION} - 1))}"
+   echo -en "\r\033[0K$ISSUER_VERSION"
+  fi
  else
   ISSUER_VERSION+=$char
  fi
@@ -33,7 +38,7 @@ DISTRIBUTION=linux
 for it in ISSUER_VERSION DISTRIBUTION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
-if test -d "$HOME/.local/google/android-studio"; then
+if test -d '/opt/google/android-studio'; then
  echo "${ISSUER^} exists!"; exit 22
 fi
 
@@ -44,6 +49,7 @@ fi
 
 case "$ISSUER_VERSION" in
  '2021.2.1.16') SHA_256='aa5773a9e1da25bdb2367a8bdd2b623dbe0345170ed231a15b3f40e8888447dc';;
+ '2021.3.1.17') SHA_256='89adb0ce0ffa46b7894e7bfedb142b1f5d52c43c171e6a6cb9a95a49f77756ca';;
  *) echo "${ISSUER^} version $ISSUER_VERSION is not supported!"; exit 31;;
 esac
 
@@ -65,11 +71,11 @@ fi
 echo "$SHA_256 /tmp/$FILE" | sha256sum -c || exit 42
 
 echo "Unzip $ISSUER ${ISSUER_VERSION}..."
-if [ ! -d "$HOME/.local/google" ]; then
- mkdir "$HOME/.local/google" || exit 1 # todo
+if [ ! -d '/opt/google' ]; then
+ mkdir '/opt/google' || exit 1 # todo
 fi
 rm -rf /tmp/android-studio
-tar -xf /tmp/$FILE -C "$HOME/.local/google"
+tar -xf /tmp/$FILE -C '/opt/google'
 if test $? -ne 0; then
  echo "Unzip $ISSUER $ISSUER_VERSION error!"; exit 51
 fi
