@@ -87,6 +87,16 @@ CODE=0
 TIME_RESULT=$((TIME_RESULT+TIME_SUSPEND))
 [[ $TIME_IDLE -lt $TIME_RESULT ]] && exit 0
 
+CODE=0
+STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
+if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
+ STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
+ if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
+  /usr/bin/bluetoothctl disconnect "$BT_MAC_SPEAKERS"
+ fi
+fi
+CODE=0
+
 sudo -n /usr/bin/systemctl suspend
 if test $? -ne 0; then
  echo "Suspend error!" >> $LOG_PATH; exit 61
@@ -96,3 +106,13 @@ fi
 if test $? -ne 0; then
  echo "Screensaver reset error!" >> $LOG_PATH; exit 71
 fi
+
+CODE=0
+STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
+if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
+ STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
+ if [ $CODE -eq 0 ] && [ "$STATUS" == no ]; then
+  /usr/bin/bluetoothctl connect "$BT_MAC_SPEAKERS"
+ fi
+fi
+CODE=0
