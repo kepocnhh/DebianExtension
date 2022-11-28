@@ -25,6 +25,11 @@ while : ; do
  read -n1 char
  if test -z $char; then
   echo; break
+ elif test $char == $'\x7f'; then
+  if [ ! -z "$ISSUER_VERSION" ]; then
+   ISSUER_VERSION="${ISSUER_VERSION:0:((${#ISSUER_VERSION} - 1))}"
+   echo -en "\r\033[0K$ISSUER_VERSION"
+  fi
  else
   ISSUER_VERSION+=$char
  fi
