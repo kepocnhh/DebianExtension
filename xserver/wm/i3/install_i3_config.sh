@@ -22,8 +22,6 @@ fi
 
 if [ ! -s $I3_PATH/status_command.sh ]; then
  echo "Status command does not exist!"; exit 31
-elif [ ! -s $I3_PATH/on_idle_command.sh ]; then
- echo "On idle command does not exist!"; exit 32
 fi
 
 echo "Install i3 config success."

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-for it in HOME; do
- if [ ! -d "${!it}" ]; then echo "Dir $it does not exist!"; exit 11; fi; done
-
 ISSUER=postman
 
 ISSUER_VERSION='latest'
@@ -11,7 +8,7 @@ MACHINE_HARDWARE_NAME="$(/usr/bin/uname -m)"
 for it in ISSUER_VERSION MACHINE_HARDWARE_NAME; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 21; fi; done
 
-if test -d "$HOME/.local/Postman"; then
+if test -d '/opt/postman'; then
  echo "${ISSUER^} exists!"; exit 22
 fi
 
@@ -43,10 +40,7 @@ if test $? -ne 0; then
 fi
 
 echo "Install $ISSUER ${ISSUER_VERSION}..."
-if [ ! -d "$HOME/.local" ]; then
- mkdir "$HOME/.local" || exit 51 # todo
-fi
-mv /tmp/Postman/app "$HOME/.local/Postman"
+mv /tmp/Postman/app '/opt/postman'
 if test $? -ne 0; then
  echo "Install $ISSUER $ISSUER_VERSION error!"; exit 52
 fi
