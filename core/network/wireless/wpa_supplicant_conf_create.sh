@@ -3,12 +3,18 @@
 echo 'Create wpa_supplicant.conf...'
 
 if test $# -ne 1; then
- echo "Script needs for 2 arguments but actual $#!"; exit 12; fi
+ echo "Script needs for 1 arguments but actual $#!"; exit 12; fi
 
 SSID="$1"
-PASSWORD="$2"
 
-for it in SSID PASSWORD; do
+for it in SSID; do
+ if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
+
+echo 'Enter password:'
+
+read -rs PASSWORD
+
+for it in PASSWORD; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 13; fi; done
 
 RESULT_FILE_PATH="/etc/wpa_supplicant.$SSID.conf"

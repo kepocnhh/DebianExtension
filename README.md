@@ -6,6 +6,36 @@ A few Debian extensions
 ---
 
 ```
+$ ./DebianExtension/download/download_wlan_packages.sh
+$ cp -r ./DebianExtension /usb/{debian}/
+$ cp -r $HOME/Downloads/wlan /usb/{debian}/
+```
+
+```
+# mkdir /tmp/usb
+# mkdir /home/{username}/.tmp
+# mount /dev/{sdN} /tmp/usb
+# cp -r /tmp/usb/{debian} /home/{username}/.tmp
+# umount /dev/{sdN}
+# cd /home/{username}/.tmp
+# cp ./DebianExtension/debian/etc/apt/sources.list /etc/apt/sources.list
+# ./DebianExtension/core/network/wireless/install_wlan.sh
+# systemctl reboot
+```
+
+```
+# cd /home/{username}/.tmp
+# ./DebianExtension/core/network/wireless/wpa_supplicant_conf_create.sh {SSID}
+# ./DebianExtension/core/network/wireless/wireless_up.sh {SSID}
+# ./DebianExtension/install.sh -t {version}
+# apt-get install sudo
+# /usr/sbin/usermod -aG sudo {username}
+# exit
+```
+
+---
+
+```
 $ sudo -E core/install.sh
 $ sudo -E xserver/install.sh
 $ sudo chown -R $USER:$USER $HOME

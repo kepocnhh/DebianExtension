@@ -1,28 +1,25 @@
 #!/bin/bash
 
 if test $# -ne 2; then
-  echo "Script needs for 2 arguments but actual $#!"; exit 11
-fi
+ echo "Script needs for 2 arguments but actual $#!"; exit 11; fi
 
-OPTION=$1
-DEBIAN_EXTENSION_VERSION=$2
+OPTION="$1"
+DEBIAN_EXTENSION_VERSION="$2"
 
 for it in OPTION DEBIAN_EXTENSION_VERSION; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 12; fi; done
 
 ENCODED=${DEBIAN_EXTENSION_VERSION////-}
 
-REPOSITORY_OWNER="kepocnhh"
-REPOSITORY_NAME="DebianExtension"
+REPOSITORY_OWNER='kepocnhh'
+REPOSITORY_NAME='DebianExtension'
 
 if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
- echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13
-fi
+ echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13; fi
 
 apt-get install --no-install-recommends -y curl ca-certificates unzip
 if test $? -ne 0; then
- echo "Install lib error!"; exit 14
-fi
+ echo 'Install lib error!'; exit 14; fi
 
 echo "Install ${REPOSITORY_OWNER}/${REPOSITORY_NAME} ${DEBIAN_EXTENSION_VERSION}..."
 
@@ -36,20 +33,18 @@ esac
 
 echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
 FILE="${REPOSITORY_NAME}-${ENCODED}.zip"
-rm /tmp/$FILE
+rm "/tmp/$FILE"
 curl -f -L "$BASE_URL/${DEBIAN_EXTENSION_VERSION}.zip" -o /tmp/$FILE
 if test $? -ne 0; then
- echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31
-fi
+ echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31; fi
 
 echo "Unzip $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
-unzip -d /opt /tmp/$FILE
+unzip -d /opt "/tmp/$FILE"
 if test $? -ne 0; then
- echo "Unzip $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 32
-fi
+ echo "Unzip $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 32; fi
 rm /tmp/$FILE
 
-cat /opt/${REPOSITORY_NAME}-${ENCODED}/README.md
+cat "/opt/${REPOSITORY_NAME}-${ENCODED}/README.md"
 
 echo "Install $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION success."
 
