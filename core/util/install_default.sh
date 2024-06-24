@@ -1,34 +1,27 @@
 #!/bin/bash
 
-echo "Install default..."
+echo 'Install default...'
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
-fi
-
-DEFAULT_PATH="/etc/default"
-ARRAY=("console-setup" keyboard grub)
+DEFAULT_PATH='/etc/default'
+ARRAY=('console-setup' keyboard grub)
 for ((i = 0; i < ${#ARRAY[@]}; i++)); do
  FILE_NAME="${ARRAY[$i]}"
  RESULT_PATH="$DEFAULT_PATH/$FILE_NAME"
  rm "$RESULT_PATH"
- cp "$DEBIAN_EXTENSION_HOME/debian$RESULT_PATH" "$RESULT_PATH"
+ cp "./debian$RESULT_PATH" "$RESULT_PATH"
  if test $? -ne 0; then
-  echo "Copy \"$FILE_NAME\" file error!"; exit $((20 + i))
- fi
+  echo "Copy \"$FILE_NAME\" file error!"; exit $((20 + i)); fi
  echo "Copy \"$RESULT_PATH\" file success."
 done
 
 udevadm trigger --subsystem-match=input --action=change
 if test $? -ne 0; then
- echo "Restart keyboard error!"; exit 31
-fi
+ echo "Restart keyboard error!"; exit 31; fi
 
 update-grub
 if test $? -ne 0; then
- echo "Update grub error!"; exit 31
-fi
+ echo "Update grub error!"; exit 31; fi
 
-echo "Install default success."
+echo 'Install default success.'
 
 exit 0

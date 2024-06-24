@@ -5,6 +5,8 @@ A few Debian extensions
 
 ---
 
+### Phase #1
+
 ```
 $ ./DebianExtension/download/download_wlan_packages.sh
 $ cp -r ./DebianExtension /usb/{debian}/
@@ -35,13 +37,20 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 
 ---
 
+### Phase #2
+
 ```
-$ sudo -E core/install.sh
-$ sudo -E xserver/install.sh
+$ cd /opt/DebianExtension-{version}
+$ sudo ./core/install.sh
+$ sudo ./xserver/install.sh
 $ sudo chown -R $USER:$USER $HOME
 $ echo ". \$HOME/.local/aliases" >> $HOME/.bashrc
 $ echo ". \$HOME/.local/environment" >> $HOME/.bashrc
 ```
+
+---
+
+### Phase #3
 
 xserver on idle suspend
 ```
