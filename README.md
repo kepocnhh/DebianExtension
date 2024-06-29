@@ -28,6 +28,7 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 # cd /home/{username}/.tmp
 # ./DebianExtension/core/network/wireless/wpa_supplicant_conf_create.sh {SSID}
 # ./DebianExtension/core/network/wireless/wireless_up.sh {SSID}
+# /usr/bin/apt-get update
 # ./DebianExtension/install.sh -t {version}
 # apt-get install sudo
 # /usr/sbin/usermod -aG sudo {username}
