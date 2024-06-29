@@ -7,7 +7,7 @@ echo 'Install wlan...'
 if test $? -ne 0; then
  echo 'Install "firmware-iwlwifi" error!'; exit 11; fi
 
-/usr/sbin/modprobe -r iwlwifi && /usr/sbin/modprobe iwlwifi
+/usr/sbin/modprobe -r iwlmvm && /usr/sbin/modprobe iwlwifi
 
 if test $? -ne 0; then
  echo 'Modprobe error!'; exit 12; fi
