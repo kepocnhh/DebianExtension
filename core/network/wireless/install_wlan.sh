@@ -21,7 +21,7 @@ for it in \
  './wlan/libpcsclite1_*' \
  './wlan/wpasupplicant_*' \
 ; do
- /usr/bin/apt install -y --no-install-recommends "$it"
+ /usr/bin/apt install -y --no-install-recommends $it
  if test $? -ne 0; then
   echo "Install \"$it\" error!"; exit 13; fi
 done
