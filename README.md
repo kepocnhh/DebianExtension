@@ -15,7 +15,6 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 
 ```
 # mkdir /tmp/usb
-# mkdir /home/{username}/.tmp
 # mount /dev/{sdN} /tmp/usb
 # cp -r /tmp/usb/{debian} /home/{username}/.tmp
 # umount /dev/{sdN}
