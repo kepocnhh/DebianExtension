@@ -1,19 +1,13 @@
 #!/bin/bash
 
-if test $# -ne 1; then
- echo "Script needs for 1 arguments but actual $#!"; exit 11; fi
+if test $# -ne 2; then
+ echo "Script needs for 2 arguments but actual $#!"; exit 11; fi
 
 SSID="$1"
+NI_NAME="$1"
 
-for it in SSID; do
+for it in SSID NI_NAME; do
  if test -z "${!it}"; then echo "$it is empty!"; exit 101; fi; done
-
-echo 'Enter network interface name:'
-
-read -r NI_NAME
-
-for it in NI_NAME; do
- if test -z "${!it}"; then echo "$it is empty!"; exit 102; fi; done
 
 if [ ! -s "/etc/wpa_supplicant.${SSID}.conf" ]; then
  echo "WPA supplicant conf for ssid \"$SSID\" does not exist!"; exit 13; fi
