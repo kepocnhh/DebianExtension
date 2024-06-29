@@ -1,7 +1,7 @@
 # DebianExtension
 A few Debian extensions
 
-![version](https://img.shields.io/static/v1?label=version&message=0.2.0&labelColor=212121&color=2962ff&style=flat)
+![version](https://img.shields.io/static/v1?label=version&message=0.2.1&labelColor=212121&color=2962ff&style=flat)
 
 ---
 
