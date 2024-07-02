@@ -65,7 +65,7 @@ $ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
 
 wireless alias
 ```
-$ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
+$ echo "alias wu=\"sudo /opt/DebianExtension/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
 ```
 
 `apt-get` no install recommends alias

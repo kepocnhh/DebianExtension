@@ -1,12 +1,9 @@
 #!/bin/bash
 
-LOG_PATH="/tmp/on_idle_command.log"
+LOG_PATH='/tmp/on_idle_command.log'
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!" >> $LOG_PATH; exit 11
-elif test $# -ne 3; then
- echo "Script needs for 3 arguments but actual $#!" >> $LOG_PATH; exit 12
-fi
+if test $# -ne 3; then
+ echo "Script needs for 3 arguments but actual $#!" >> $LOG_PATH; exit 12; fi
 
 TIME_SCREEN_OFF=$1
 TIME_SCREEN_LOCK=$2
@@ -51,7 +48,7 @@ while :; do
  if test -z "$DISPLAY"; then
   echo "on idle command display empty!" >> $LOG_PATH; exit 32
  fi
- $DEBIAN_EXTENSION_HOME/xserver/wm/on_idle.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND
+ /opt/DebianExtension/xserver/wm/on_idle.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND
  if test $? -ne 0; then
   echo "on idle script error!" >> $LOG_PATH; exit 33
  fi

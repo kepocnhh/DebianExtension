@@ -82,7 +82,7 @@ client.unfocused $color_bg $color_inactive $color_tx $color_bg $color_bg
 client.urgent $color_bg $color_urgent $color_tx $color_bg $color_bg
 
 bar {
- status_command $DEBIAN_EXTENSION_HOME/xserver/wm/i3/status_command.sh
+ status_command /opt/DebianExtension/xserver/wm/i3/status_command.sh
 
  bindsym button4 nop
  bindsym button5 nop

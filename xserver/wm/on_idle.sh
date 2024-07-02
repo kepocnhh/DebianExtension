@@ -1,10 +1,8 @@
 #!/bin/bash
 
-LOG_PATH="/tmp/on_idle.log"
+LOG_PATH='/tmp/on_idle.log'
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!" >> $LOG_PATH; exit 11
-elif test $# -ne 3; then
+if test $# -ne 3; then
  echo "Script needs for 3 arguments but actual $#!" >> $LOG_PATH; exit 12
 fi
 
@@ -38,7 +36,7 @@ fi
 
 [[ $TIME_IDLE -lt $((TIME_SCREEN_OFF/2)) ]] && exit 0
 
-RESULT=$($DEBIAN_EXTENSION_HOME/core/media/media_is_playing.sh)
+RESULT=$(/opt/DebianExtension/core/media/media_is_playing.sh)
 if test $? -ne 0; then
  echo "Media is playing error!" >> $LOG_PATH; exit 31
 elif test "$RESULT" == "true"; then
@@ -51,7 +49,7 @@ fi
 
 [[ $TIME_IDLE -lt $TIME_SCREEN_OFF ]] && exit 0
 
-RESULT=$($DEBIAN_EXTENSION_HOME/periphery/monitor_is_on.sh)
+RESULT=$(/opt/DebianExtension/periphery/monitor_is_on.sh)
 if test $? -ne 0; then
  echo "Monitor is on error!" >> $LOG_PATH; exit 41
 elif test "$RESULT" == "true"; then
@@ -88,9 +86,9 @@ TIME_RESULT=$((TIME_RESULT+TIME_SUSPEND))
 [[ $TIME_IDLE -lt $TIME_RESULT ]] && exit 0
 
 CODE=0
-STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
+STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
 if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
- STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
+ STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
  if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
   /usr/bin/bluetoothctl disconnect "$BT_MAC_SPEAKERS"
  fi
@@ -108,9 +106,9 @@ if test $? -ne 0; then
 fi
 
 CODE=0
-STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
+STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER"); CODE=$?
 if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
- STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
+ STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS"); CODE=$?
  if [ $CODE -eq 0 ] && [ "$STATUS" == no ]; then
   /usr/bin/bluetoothctl connect "$BT_MAC_SPEAKERS"
  fi

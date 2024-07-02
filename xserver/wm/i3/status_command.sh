@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ ! -d "$DEBIAN_EXTENSION_HOME" ]; then
- echo "Dir $DEBIAN_EXTENSION_HOME does not exist!"; exit 11
-fi
-
 COLOR_GRAY='#888888'
 COLOR_RED='#d32f2f'
 COLOR_GREEN='#43a047'
@@ -20,9 +16,9 @@ echo '[]'
  /usr/bin/pulseaudio --check || RESULT="{\"name\":\"pulse_off\",\"full_text\":\"P\",\"color\":\"$COLOR_RED\"},$RESULT"
 
  CODE=0
- STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")
+ STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")
  if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
-  STATUS=$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")
+  STATUS=$(/opt/DebianExtension/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")
   if [ $CODE -eq 0 ] && [ "$STATUS" == yes ]; then
    RESULT="{\"name\":\"speakers_on\",\"full_text\":\"S\",\"color\":\"$COLOR_WHITE\"},$RESULT"
   elif [ $CODE -eq 0 ] && [ "$STATUS" == no ]; then
@@ -37,7 +33,7 @@ echo '[]'
  fi
 
  CODE=0
- STATUS=$($DEBIAN_EXTENSION_HOME/core/network/wireless/is_up.sh "$NI_WIRELESS")
+ STATUS=$(/opt/DebianExtension/core/network/wireless/is_up.sh "$NI_WIRELESS")
  if [ $CODE -eq 0 ] && [ "$STATUS" == up ]; then
   RESULT="{\"full_text\":\"W\",\"color\":\"$COLOR_WHITE\"},$RESULT"
  elif [ $CODE -eq 0 ] && [ "$STATUS" == down ]; then
@@ -46,10 +42,10 @@ echo '[]'
   RESULT="{\"full_text\":\"W\",\"color\":\"$COLOR_RED\"},$RESULT"
  fi
 
-# SSID=$($DEBIAN_EXTENSION_HOME/core/network/wireless/get_wireless_ssid.sh $WF_NI_MAIN)
+# SSID=$(/opt/DebianExtension/core/network/wireless/get_wireless_ssid.sh $WF_NI_MAIN)
 # [ $? -eq 0 ] && RESULT="{\"full_text\":\"$WF_NI_MAIN/$SSID\",\"color\":\"$COLOR_GREEN\"},$RESULT"
 
- MOUNT=$($DEBIAN_EXTENSION_HOME/core/util/mount/get_mount_by_device.sh)
+ MOUNT=$(/opt/DebianExtension/core/util/mount/get_mount_by_device.sh)
  [ $? -eq 0 ] && RESULT="{\"full_text\":\"$MOUNT\"},$RESULT"
 
  echo ",[$RESULT]"
@@ -60,13 +56,13 @@ while read it; do
   pulse_off) /usr/bin/pulseaudio --check; if test $? -ne 0; then
    /usr/bin/pulseaudio --start &
   fi;;
-  bt_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")" == no; then
+  bt_off) if test "$(/opt/DebianExtension/core/network/bluetooth/is_powered.sh "$BT_MAC_CONTROLLER")" == no; then
    /usr/bin/bluetoothctl power on > /dev/null &
   fi;;
-  speakers_off) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == no; then
+  speakers_off) if test "$(/opt/DebianExtension/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == no; then
    /usr/bin/bluetoothctl connect $BT_MAC_SPEAKERS > /tmp/bt_connect.log &
   fi;;
-  speakers_on) if test "$($DEBIAN_EXTENSION_HOME/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == yes; then
+  speakers_on) if test "$(/opt/DebianExtension/core/network/bluetooth/is_connected.sh "$BT_MAC_SPEAKERS")" == yes; then
    /usr/bin/bluetoothctl disconnect $BT_MAC_SPEAKERS > /tmp/bt_disconnect.log &
   fi;;
  esac
