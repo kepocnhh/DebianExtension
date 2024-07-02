@@ -41,8 +41,8 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 
 ```
 $ cd /opt/DebianExtension-{version}
-$ sudo ./core/install.sh
-$ sudo ./xserver/install.sh
+$ sudo -E ./core/install.sh
+$ sudo -E ./xserver/install.sh
 $ sudo chown -R $USER:$USER $HOME
 $ echo ". \$HOME/.local/aliases" >> $HOME/.bashrc
 $ echo ". \$HOME/.local/environment" >> $HOME/.bashrc
