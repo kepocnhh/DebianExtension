@@ -14,8 +14,8 @@ ENCODED=${DEBIAN_EXTENSION_VERSION////-}
 REPOSITORY_OWNER='kepocnhh'
 REPOSITORY_NAME='DebianExtension'
 
-if test -d "/opt/${REPOSITORY_NAME}-${ENCODED}"; then
- echo "Debian extension ${DEBIAN_EXTENSION_VERSION} exists!"; exit 13; fi
+if test -d "/opt/${REPOSITORY_NAME}"; then
+ echo "Debian extension exists!"; exit 13; fi
 
 apt-get install --no-install-recommends -y curl ca-certificates unzip
 if test $? -ne 0; then
@@ -33,18 +33,19 @@ esac
 
 echo "Download $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
 FILE="${REPOSITORY_NAME}-${ENCODED}.zip"
+rm "/tmp/${REPOSITORY_NAME}-${ENCODED}"
 rm "/tmp/$FILE"
-curl -f -L "$BASE_URL/${DEBIAN_EXTENSION_VERSION}.zip" -o /tmp/$FILE
+curl -f -L "$BASE_URL/${DEBIAN_EXTENSION_VERSION}.zip" -o "/tmp/$FILE"
 if test $? -ne 0; then
  echo "Download $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 31; fi
 
 echo "Unzip $REPOSITORY_NAME ${DEBIAN_EXTENSION_VERSION}..."
-unzip -d /opt "/tmp/$FILE"
+unzip -d '/tmp' "/tmp/$FILE" && mv "/tmp/${REPOSITORY_NAME}-${ENCODED}" "/opt/${REPOSITORY_NAME}"
 if test $? -ne 0; then
  echo "Unzip $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION error!"; exit 32; fi
-rm /tmp/$FILE
+rm "/tmp/$FILE"
 
-cat "/opt/${REPOSITORY_NAME}-${ENCODED}/README.md"
+cat "/opt/${REPOSITORY_NAME}/README.md"
 
 echo "Install $REPOSITORY_NAME $DEBIAN_EXTENSION_VERSION success."
 

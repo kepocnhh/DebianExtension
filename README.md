@@ -1,7 +1,7 @@
 # DebianExtension
 A few Debian extensions
 
-![version](https://img.shields.io/static/v1?label=version&message=0.2.0&labelColor=212121&color=2962ff&style=flat)
+![version](https://img.shields.io/static/v1?label=version&message=0.2.1&labelColor=212121&color=2962ff&style=flat)
 
 ---
 
@@ -15,7 +15,6 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 
 ```
 # mkdir /tmp/usb
-# mkdir /home/{username}/.tmp
 # mount /dev/{sdN} /tmp/usb
 # cp -r /tmp/usb/{debian} /home/{username}/.tmp
 # umount /dev/{sdN}
@@ -29,6 +28,7 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 # cd /home/{username}/.tmp
 # ./DebianExtension/core/network/wireless/wpa_supplicant_conf_create.sh {SSID}
 # ./DebianExtension/core/network/wireless/wireless_up.sh {SSID}
+# /usr/bin/apt-get update
 # ./DebianExtension/install.sh -t {version}
 # apt-get install sudo
 # /usr/sbin/usermod -aG sudo {username}
@@ -41,8 +41,8 @@ $ cp -r $HOME/Downloads/wlan /usb/{debian}/
 
 ```
 $ cd /opt/DebianExtension-{version}
-$ sudo ./core/install.sh
-$ sudo ./xserver/install.sh
+$ sudo -E ./core/install.sh
+$ sudo -E ./xserver/install.sh
 $ sudo chown -R $USER:$USER $HOME
 $ echo ". \$HOME/.local/aliases" >> $HOME/.bashrc
 $ echo ". \$HOME/.local/environment" >> $HOME/.bashrc
@@ -65,7 +65,7 @@ $ echo "MOUNT_AUTO=true" | sudo tee -a /etc/environment.d/systemd.env
 
 wireless alias
 ```
-$ echo "alias wu=\"sudo \$DEBIAN_EXTENSION_HOME/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
+$ echo "alias wu=\"sudo /opt/DebianExtension/core/network/wireless/wireless_up.sh {ni_name} {ssid}\"" >> $HOME/.local/aliases
 ```
 
 `apt-get` no install recommends alias

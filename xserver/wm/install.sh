@@ -24,7 +24,7 @@ TIME_SUSPEND=$((1000*60*5))
 
 echo "
 /usr/bin/xset dpms 0 0 0; /usr/bin/xset s off
-\$DEBIAN_EXTENSION_HOME/xserver/wm/on_idle_command.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND &
+/opt/DebianExtension/xserver/wm/on_idle_command.sh $TIME_SCREEN_OFF $TIME_SCREEN_LOCK $TIME_SUSPEND &
 " >> "$HOME/.xsessionrc"
 
 echo 'Install wm success.'
